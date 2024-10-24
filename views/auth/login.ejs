@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login or Register</title>
     <link href="/css/output.css" rel="stylesheet">
     <style>
         body {
@@ -96,6 +96,20 @@
         .admin input {
             border: 1px solid #2b6cb0;
         }
+
+        /* Special styles for register */
+        .register {
+            background-color: #f9f9f9;
+            border: 2px solid #00b300;
+        }
+
+        .register h2 {
+            color: #00b300;
+        }
+
+        .register input {
+            border: 1px solid #00b300;
+        }
     </style>
 </head>
 <body>
@@ -115,17 +129,23 @@
             </div>
         </form>
         <div class="toggle-link">
-            <a href="javascript:void(0);" onclick="toggleLogin()">Switch to Admin Login</a>
+            <a href="javascript:void(0);" onclick="toggleLogin()">Switch to Admin Login</a> |
+            <a href="javascript:void(0);" onclick="toggleRegister()">Register</a> <!-- Added register link -->
         </div>
     </div>
 
     <script>
         let isAdmin = false;
+        let isRegister = false;
 
         function toggleLogin() {
             const loginContainer = document.getElementById('loginContainer');
             const loginTitle = document.getElementById('loginTitle');
             const loginForm = document.getElementById('loginForm');
+
+            if (isRegister) {
+                toggleRegister(); // Reset registration if switching back to login
+            }
 
             if (isAdmin) {
                 loginTitle.textContent = "User Login";
@@ -134,12 +154,36 @@
                 document.querySelector('.toggle-link a').textContent = "Switch to Admin Login";
             } else {
                 loginTitle.textContent = "Admin Login";
-                loginForm.action = "/auth/login";
+                loginForm.action = "/auth/admin-login";
                 loginContainer.classList.add('admin');
                 document.querySelector('.toggle-link a').textContent = "Switch to User Login";
             }
 
             isAdmin = !isAdmin;
+        }
+
+        function toggleRegister() {
+            const loginContainer = document.getElementById('loginContainer');
+            const loginTitle = document.getElementById('loginTitle');
+            const loginForm = document.getElementById('loginForm');
+
+            if (isAdmin) {
+                toggleLogin(); // Reset admin mode if switching to registration
+            }
+
+            if (isRegister) {
+                loginTitle.textContent = "User Login";
+                loginForm.action = "/auth/login";
+                loginContainer.classList.remove('register');
+                document.querySelector('.toggle-link a').textContent = "Register";
+            } else {
+                loginTitle.textContent = "Register";
+                loginForm.action = "/auth/register";
+                loginContainer.classList.add('register');
+                document.querySelector('.toggle-link a').textContent = "Switch to Login";
+            }
+
+            isRegister = !isRegister;
         }
     </script>
 
