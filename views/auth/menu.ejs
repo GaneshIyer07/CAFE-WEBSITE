@@ -9,6 +9,11 @@
 </head>
 <body>
     <div class="container my-5">
+        <!-- Logout Button at the Top -->
+        <div class="d-flex justify-content-end mb-4">
+            <a href="/auth/logout" class="btn btn-danger">Logout</a>
+        </div>
+
         <h1 class="text-center mb-4">Welcome, <%= user.username %>! Here is our Menu:</h1>
 
         <div class="row mb-4">
@@ -26,15 +31,11 @@
             <% }); %>
         </div>
 
-        <div class="d-flex justify-content-between mb-4">
+        <!-- Cart Button at the Bottom Center -->
+        <div class="d-flex justify-content-center">
             <a href="/auth/dashboard/cart" class="btn btn-secondary">Your Cart</a>
-            <a href="/auth/logout" class="btn btn-danger">Logout</a>
         </div>
 
-        <h2>Your Cart</h2>
-        <ul id="cart-items" class="list-group mb-4">
-            <!-- Cart items will be dynamically inserted here -->
-        </ul>
     </div>
 
     <script>
@@ -66,76 +67,12 @@
                 // Store the updated cart in session storage
                 sessionStorage.setItem('cart', JSON.stringify(cart));
 
-                // Update the cart UI
-                displayCartItems();
+                // Optionally, display a success message or update cart UI if necessary
+                alert(`${itemName} has been added to your cart!`);
             });
         });
 
-        // Function to display cart items from session storage
-        function displayCartItems() {
-            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-            const cartItemsContainer = document.getElementById('cart-items');
-            cartItemsContainer.innerHTML = ''; // Clear existing items
-
-            cart.forEach((item, index) => {
-                const li = document.createElement('li');
-                li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-                li.innerHTML = `
-                    ${item.itemName} - ₹${item.itemPrice} (Quantity: ${item.quantity}) 
-                    <div>
-                        <button class="btn btn-link increase-qty" data-index="${index}">+</button>
-                        <button class="btn btn-link decrease-qty" data-index="${index}">-</button>
-                        <button class="btn btn-danger remove-item" data-index="${index}">Remove</button>
-                    </div>
-                `;
-                cartItemsContainer.appendChild(li);
-            });
-
-            // Add event listeners for editing cart items
-            addCartEditListeners();
-        }
-
-        // Function to add listeners for cart edits (increase, decrease, remove)
-        function addCartEditListeners() {
-            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-            // Increase quantity
-            document.querySelectorAll('.increase-qty').forEach(button => {
-                button.addEventListener('click', function () {
-                    const index = this.getAttribute('data-index');
-                    cart[index].quantity += 1;
-                    sessionStorage.setItem('cart', JSON.stringify(cart));
-                    displayCartItems();
-                });
-            });
-
-            // Decrease quantity
-            document.querySelectorAll('.decrease-qty').forEach(button => {
-                button.addEventListener('click', function () {
-                    const index = this.getAttribute('data-index');
-                    if (cart[index].quantity > 1) {
-                        cart[index].quantity -= 1;
-                    } else {
-                        alert("Quantity can't be less than 1");
-                    }
-                    sessionStorage.setItem('cart', JSON.stringify(cart));
-                    displayCartItems();
-                });
-            });
-
-            // Remove item from cart
-            document.querySelectorAll('.remove-item').forEach(button => {
-                button.addEventListener('click', function () {
-                    const index = this.getAttribute('data-index');
-                    cart.splice(index, 1); // Remove item from cart
-                    sessionStorage.setItem('cart', JSON.stringify(cart));
-                    displayCartItems();
-                });
-            });
-        }
-
-        // Display cart items on page load
-        window.onload = displayCartItems;
+        // No need to display cart items on this page
     </script>
 </body>
 </html>

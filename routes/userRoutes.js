@@ -3,7 +3,6 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/User'); // Make sure the path to your User model is correct
 const Menu = require('../models/Menu'); // Make sure the path to your User model is correct
-
 const router = express.Router();
 
 // Middleware to check if user is logged in
@@ -101,6 +100,20 @@ router.get('/dashboard/outlets', isAuthenticated, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Error loading Outlets");
+    }
+});
+
+router.get('/dashboard/orders', isAuthenticated, async (req, res) => {
+    const id = req.session.userId;
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            return res.redirect('/auth/login');
+        }
+        res.render('auth/orders', { user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error loading Orders");
     }
 });
 

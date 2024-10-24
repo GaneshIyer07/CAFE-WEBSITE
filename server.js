@@ -67,8 +67,8 @@ app.get('/outlets', (req, res) => {
     res.render('outlets');
 });
 
-app.get('/order', (req, res) => {
-    res.render('/order');
+app.get('/orders', (req, res) => {
+    res.render('orders');
 });
 
 // Start the server
