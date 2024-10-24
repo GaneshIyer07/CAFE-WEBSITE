@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Menu Item</title>
+    <!-- Link to Bootstrap CSS for UI enhancements -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css"> <!-- Link to your custom CSS if needed -->
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="mb-4 text-center">Edit Menu Item</h1>
+
+        <!-- Form to Edit Menu Item -->
+        <form action="/admin/dashboard/edit/<%= menuItem._id %>" method="POST" class="shadow p-4 rounded bg-light">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" name="name" id="name" value="<%= menuItem.name %>" required placeholder="Enter menu item name">
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" name="description" id="description" rows="3" required><%= menuItem.description %></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Price:</label>
+                <input type="number" class="form-control" name="price" id="price" value="<%= menuItem.price %>" required placeholder="Enter menu item price">
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Category:</label>
+                <input type="text" class="form-control" name="category" id="category" value="<%= menuItem.category %>" required placeholder="Enter menu item category">
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Update Menu Item</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

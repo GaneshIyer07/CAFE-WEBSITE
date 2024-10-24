@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | RS Mani Cafe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff6f61, #ffdd57); /* Gradient from orange-red to warm yellow */
+            height: 100vh; /* Full viewport height */
+            color: white; /* White text for contrast */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif; /* Font style */
+        }
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black box */
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Cursive', sans-serif;
+            font-size: 3rem; /* Larger font size for welcome message */
+            margin-bottom: 2rem;
+            color: #fff9c4; /* A soft yellow for contrast */
+        }
+        .btn-secondary {
+            background-color: #4a90e2; /* Blue button for contrast with the gradient */
+            border: none;
+            font-size: 1.25rem; /* Bigger font for the button */
+            padding: 0.75rem 2rem;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+        }
+        .btn-secondary:hover {
+            background-color: #357ABD; /* Darker shade of blue on hover */
+        }
+        footer {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff9c4; /* Soft yellow footer text */
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Welcome to RS Mani Cafe</h1>
+        <div class="login-buttons">
+            <a href="/auth/login" class="btn btn-secondary btn-lg">Login</a>
+        </div>
+    </div>
+
+    <footer>&copy; 2024 RS Mani Cafe | South Indian Flavors to Savor!</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

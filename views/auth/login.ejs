@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="/css/output.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f7fafc;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-group button:hover {
+            background-color: #2b6cb0;
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 1rem;
+            color: #3182ce;
+        }
+
+        .toggle-link a {
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Special styles for admin */
+        .admin {
+            background-color: #f0f4ff;
+            border: 2px solid #3182ce;
+        }
+
+        .admin h2 {
+            color: #2b6cb0;
+        }
+
+        .admin input {
+            border: 1px solid #2b6cb0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <h2 id="loginTitle">User Login</h2>
+        <form action="/auth/login" method="POST" id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+        <div class="toggle-link">
+            <a href="javascript:void(0);" onclick="toggleLogin()">Switch to Admin Login</a>
+        </div>
+    </div>
+
+    <script>
+        let isAdmin = false;
+
+        function toggleLogin() {
+            const loginContainer = document.getElementById('loginContainer');
+            const loginTitle = document.getElementById('loginTitle');
+            const loginForm = document.getElementById('loginForm');
+
+            if (isAdmin) {
+                loginTitle.textContent = "User Login";
+                loginForm.action = "/auth/login";
+                loginContainer.classList.remove('admin');
+                document.querySelector('.toggle-link a').textContent = "Switch to Admin Login";
+            } else {
+                loginTitle.textContent = "Admin Login";
+                loginForm.action = "/auth/login";
+                loginContainer.classList.add('admin');
+                document.querySelector('.toggle-link a').textContent = "Switch to User Login";
+            }
+
+            isAdmin = !isAdmin;
+        }
+    </script>
+
+</body>
+</html>

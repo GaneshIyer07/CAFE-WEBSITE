@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Page</title>
+    <link href="/css/output.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+        nav {
+            background-color: #1f2937;
+            padding: 15px;
+        }
+        nav .brand {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav .nav-links a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .container {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns for large image cards */
+            gap: 20px;
+            justify-items: center;
+        }
+        .order-card {
+            width: 100%;
+            max-width: 300px; /* Adjust card width */
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .order-card:hover {
+            transform: translateY(-10px);
+        }
+        .order-card img {
+            width: 100%;
+            height: 200px; /* Adjust image height */
+            object-fit: cover;
+            filter: brightness(80%);
+        }
+        .order-card h3 {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .order-card .details {
+            padding: 15px;
+        }
+        @media(max-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+            }
+        }
+        @media(max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr; /* 1 column on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-gray-800">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="brand">RS MANI CAFE</div>
+            <div class="nav-links">
+                <a href="/dashboard">Home</a>
+                <a href="/auth/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="title">Order Your Favorite Dishes</h1>
+
+        <!-- Grid of Order Options -->
+        <div class="grid">
+            <!-- Order Option 1: Zomato -->
+            <div class="order-card" onclick="location.href='https://www.zomato.com/mumbai/r-s-mani-cafe-ghatkopar-east'">
+                <img src="/images/z.jpg" alt="Order on Zomato">
+                <div class="details">
+                    <h3>Order on Zomato</h3>
+                </div>
+            </div>
+
+            <!-- Order Option 2: Swiggy -->
+            <div class="order-card" onclick="location.href='https://www.swiggy.com/city/mumbai/r-s-mani-cafe-tilak-nagar-chembur-rest414109'">
+                <img src="/images/s.png" alt="Order on Swiggy">
+                <div class="details">
+                    <h3>Order on Swiggy</h3>
+                </div>
+            </div>
+
+            <!-- Order Option 3: Home Delivery for Tilak Nagar -->
+            <div class="order-card" onclick="location.href='tel:+91XXXXXXXXXX'"> <!-- Add phone number for home delivery -->
+                <img src="url-to-your-image/home-delivery.jpg" alt="Home Delivery Tilak Nagar">
+                <div class="details">
+                    <h3>Home Delivery (Tilak Nagar)</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/node_modules/flowbite/dist/flowbite.js"></script>
+</body>
+</html>

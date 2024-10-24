@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlets</title>
+    <link href="/css/output.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+        nav {
+            background-color: #1f2937;
+            padding: 15px;
+        }
+        nav .brand {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav .nav-links a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .container {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 columns for 5 cards */
+            gap: 20px;
+            justify-items: center;
+        }
+        .outlet-card {
+            width: 100%;
+            max-width: 200px; /* Adjust card width */
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .outlet-card:hover {
+            transform: translateY(-10px);
+        }
+        .outlet-card img {
+            width: 100%;
+            height: 150px; /* Adjust image height */
+            object-fit: cover;
+            filter: brightness(80%);
+        }
+        .outlet-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .outlet-card .details {
+            padding: 15px;
+        }
+        @media(max-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+            }
+        }
+        @media(max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr; /* 1 column on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-gray-800">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="brand">RS MANI CAFE</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/auth/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="title">Our Outlets</h1>
+
+        <!-- Grid of Outlet Cards -->
+        <div class="grid">
+            <!-- Outlet 1: Tilak Nagar -->
+            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/tilaknagar'">
+                <img src="url-to-your-image/location-icon.jpg" alt="Tilak Nagar Map">
+                <div class="details">
+                    <h3>Tilak Nagar</h3>
+                </div>
+            </div>
+
+            <!-- Outlet 2: Nesco -->
+            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/nesco'">
+                <img src="url-to-your-image/location-icon.jpg" alt="Nesco Map">
+                <div class="details">
+                    <h3>Nesco</h3>
+                </div>
+            </div>
+
+            <!-- Outlet 3: Parel -->
+            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/parel'">
+                <img src="url-to-your-image/location-icon.jpg" alt="Parel Map">
+                <div class="details">
+                    <h3>Parel</h3>
+                </div>
+            </div>
+
+            <!-- Outlet 4: Parel (Second) -->
+            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/parel'">
+                <img src="url-to-your-image/location-icon.jpg" alt="Parel Map">
+                <div class="details">
+                    <h3>Parel (Second)</h3>
+                </div>
+            </div>
+
+            <!-- Outlet 5: Ghatkopar -->
+            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/ghatkopar'">
+                <img src="url-to-your-image/location-icon.jpg" alt="Ghatkopar Map">
+                <div class="details">
+                    <h3>Ghatkopar</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/node_modules/flowbite/dist/flowbite.js"></script>
+</body>
+</html>

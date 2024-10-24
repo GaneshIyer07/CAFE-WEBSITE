@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="/css/style.css"> <!-- Link to your CSS file if applicable -->
+</head>
+<body>
+    <h1>Your Cart</h1>
+
+    <ul id="cart-items">
+        <!-- Cart items will be dynamically inserted here -->
+    </ul>
+
+    <a href="/auth/dashboard/menu">Back to Menu</a>
+
+    <script>
+        // Function to display cart items from session storage
+        function displayCartItems() {
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = ''; // Clear existing items
+
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>${item.itemName}</strong> - $${item.itemPrice} 
+                    <br> Quantity: 
+                    <button class="decrease-qty" data-index="${index}">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="increase-qty" data-index="${index}">+</button>
+                    <br>
+                    <button class="remove-item" data-index="${index}">Remove</button>
+                `;
+                cartItemsContainer.appendChild(li);
+            });
+
+            // Add event listeners for "Increase", "Decrease", and "Remove" buttons
+            addCartEditFunctionality();
+        }
+
+        // Function to handle editing the cart
+        function addCartEditFunctionality() {
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+            // Increase quantity
+            document.querySelectorAll('.increase-qty').forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = this.getAttribute('data-index');
+                    cart[index].quantity += 1;
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    displayCartItems();
+                });
+            });
+
+            // Decrease quantity
+            document.querySelectorAll('.decrease-qty').forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = this.getAttribute('data-index');
+                    if (cart[index].quantity > 1) {
+                        cart[index].quantity -= 1;
+                    } else {
+                        alert("Quantity can't be less than 1");
+                    }
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    displayCartItems();
+                });
+            });
+
+            // Remove item
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = this.getAttribute('data-index');
+                    cart.splice(index, 1); // Remove item from cart
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    displayCartItems();
+                });
+            });
+        }
+
+        // Display cart items on page load
+        window.onload = displayCartItems;
+    </script>
+</body>
+</html>
