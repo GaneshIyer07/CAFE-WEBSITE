@@ -3,76 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Page</title>
+    <title>Order Page | RS Mani Cafe</title>
     <link href="/css/output.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
         }
+
         nav {
-            background-color: #1f2937;
-            padding: 15px;
+            background-color: #1f2937; /* Dark sidebar */
+            padding: 15px 30px;
+            display: flex;
+            flex-direction: column; /* Vertical layout */
+            justify-content: space-between; /* Space out items */
+            height: 100vh; /* Full height */
+            position: fixed; /* Fixed to the side */
+            top: 0;
+            left: 0;
+            width: 250px; /* Fixed width */
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
         }
+
         nav .brand {
-            color: #fff;
-            font-size: 24px;
+            color: #ffffff;
+            font-size: 26px;
             font-weight: bold;
+            margin-bottom: 20px; /* Space from the top */
         }
+
         nav .nav-links a {
-            color: #fff;
-            margin-left: 20px;
+            color: #ffffff;
+            margin: 10px 0;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            padding: 10px; /* Padding for links */
+            border-radius: 5px; /* Rounded corners */
         }
-        .container {
-            margin-top: 40px;
-            text-align: center;
+
+        nav .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Hover effect */
         }
+
+        .content {
+            margin-left: 250px; /* Leave space for sidebar */
+            padding: 20px; /* Padding around the content */
+            width: calc(100% - 250px); /* Full width minus sidebar */
+        }
+
         .title {
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 40px;
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center; /* Center title */
+            color: #1f2937; /* Dark color for title */
         }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns for large image cards */
-            gap: 20px;
-            justify-items: center;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns for cards */
+            gap: 25px;
         }
+
         .order-card {
-            width: 100%;
-            max-width: 300px; /* Adjust card width */
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease-in-out;
+            background-color: #ffffff; /* Card color */
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             cursor: pointer;
+            overflow: hidden;
+            text-align: center;
         }
+
         .order-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
+
         .order-card img {
             width: 100%;
-            height: 200px; /* Adjust image height */
+            height: 200px; /* Fixed image height */
             object-fit: cover;
-            filter: brightness(80%);
+            transition: transform 0.3s ease-in-out;
         }
+
+        .order-card img:hover {
+            transform: scale(1.05);
+        }
+
         .order-card h3 {
-            font-size: 20px;
-            margin: 10px 0;
-            color: #333;
+            font-size: 22px;
+            margin: 15px 0;
+            color: #374151; /* Dark text color */
         }
+
         .order-card .details {
-            padding: 15px;
+            padding: 20px;
         }
-        @media(max-width: 1024px) {
+
+        @media (max-width: 1024px) {
             .grid {
                 grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
             }
         }
-        @media(max-width: 768px) {
+
+        @media (max-width: 768px) {
             .grid {
                 grid-template-columns: 1fr; /* 1 column on mobile */
             }
@@ -81,17 +120,17 @@
 </head>
 <body>
 
-    <nav class="bg-gray-800">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="brand">RS MANI CAFE</div>
-            <div class="nav-links">
-                <a href="/dashboard">Home</a>
-                <a href="/auth/logout">Logout</a>
-            </div>
+    <!-- Sidebar Navigation -->
+    <nav>
+        <div class="brand">RS MANI CAFE</div>
+        <div class="nav-links">
+            <a href="/auth/dashboard">Home</a> <!-- Link to Dashboard -->
+            <a href="/auth/logout">Logout</a>
         </div>
     </nav>
 
-    <div class="container mx-auto px-4 py-8">
+    <!-- Content Area -->
+    <div class="content">
         <h1 class="title">Order Your Favorite Dishes</h1>
 
         <!-- Grid of Order Options -->
@@ -113,11 +152,13 @@
             </div>
 
             <!-- Order Option 3: Home Delivery for Tilak Nagar -->
-            <div class="order-card" onclick="location.href='tel:+91XXXXXXXXXX'"> <!-- Add phone number for home delivery -->
-                <img src="url-to-your-image/home-delivery.jpg" alt="Home Delivery Tilak Nagar">
-                <div class="details">
-                    <h3>Home Delivery (Tilak Nagar)</h3>
-                </div>
+            <div class="order-card">
+                <a href="/auth/dashboard/orders/menu" style="text-decoration: none; color: inherit;">
+                    <img src="/images/logo.jfif" alt="Home Delivery Tilak Nagar">
+                    <div class="details">
+                        <h3>Home Delivery (Tilak Nagar)</h3>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

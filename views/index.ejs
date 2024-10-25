@@ -7,55 +7,78 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #ff6f61, #ffdd57); /* Gradient from orange-red to warm yellow */
-            height: 100vh; /* Full viewport height */
-            color: white; /* White text for contrast */
+            background: linear-gradient(135deg, #3b5998, #8b9dc3); /* Professional gradient from blue to light blue */
+            height: 100vh;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0;
-            font-family: Arial, sans-serif; /* Font style */
+            font-family: Arial, sans-serif;
         }
         .login-container {
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black box */
-            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.65);
+            padding: 3rem;
             border-radius: 10px;
             text-align: center;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
         }
         h1 {
-            font-family: 'Cursive', sans-serif;
-            font-size: 3rem; /* Larger font size for welcome message */
+            font-family: 'Georgia', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #fff9c4; /* Softer yellow for title */
+        }
+        p {
+            font-size: 1.1rem;
+            color: #ffffffb3; /* Lighter white for subtitle text */
             margin-bottom: 2rem;
-            color: #fff9c4; /* A soft yellow for contrast */
         }
-        .btn-secondary {
-            background-color: #4a90e2; /* Blue button for contrast with the gradient */
-            border: none;
-            font-size: 1.25rem; /* Bigger font for the button */
+        .btn-primary, .btn-outline-light {
+            font-size: 1.25rem;
             padding: 0.75rem 2rem;
-            transition: background-color 0.3s ease; /* Smooth hover effect */
+            margin: 0.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .btn-secondary:hover {
-            background-color: #357ABD; /* Darker shade of blue on hover */
+        .btn-primary {
+            background-color: #f8b400;
+            border: none;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #d39400;
+        }
+        .btn-outline-light {
+            border: 2px solid #f8b400;
+            color: #f8b400;
+        }
+        .btn-outline-light:hover {
+            background-color: #f8b400;
+            color: #fff;
         }
         footer {
             position: absolute;
             bottom: 1rem;
             left: 50%;
             transform: translateX(-50%);
-            color: #fff9c4; /* Soft yellow footer text */
+            color: #ffffffb3;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h1>Welcome to RS Mani Cafe</h1>
+        <p>Indulge in authentic South Indian flavors crafted with passion and served with care.</p>
         <div class="login-buttons">
-            <a href="/auth/login" class="btn btn-secondary btn-lg">Login</a>
+            <a href="/auth/login" class="btn btn-primary">Login</a>
+            <a href="/auth/register" class="btn btn-outline-light">Register</a>
         </div>
     </div>
 
-    <footer>&copy; 2024 RS Mani Cafe | South Indian Flavors to Savor!</footer>
+    <footer>&copy; 2024 RS Mani Cafe | Savor the South Indian Experience!</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

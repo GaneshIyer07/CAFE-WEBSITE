@@ -78,11 +78,11 @@ router.get('/dashboard', isAuthenticated, async (req, res) => {
 });
 
 // Route to display the menu from MongoDB
-router.get('/dashboard/menu', isAuthenticated, async (req, res) => {
+router.get('/dashboard/displaymenu', isAuthenticated, async (req, res) => {
     try {
         const menuItems = await Menu.find(); // Fetch all menu items from MongoDB
         const user = await User.findById(req.session.userId); // Fetch user data
-        res.render('auth/menu', { menuItems, user }); // Pass menuItems and user data to the view
+        res.render('auth/displaymenu', { menuItems, user }); // Pass menuItems and user data to the view
     } catch (error) {
         console.error(error);
         res.status(500).send("Error fetching menu items");
@@ -117,8 +117,27 @@ router.get('/dashboard/orders', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/dashboard/orders/menu', isAuthenticated, async (req, res) => {
+    const id = req.session.userId;
+    try {
+        const user = await User.findById(id);
+        const menuItems = await Menu.find(); // Fetch all menu items from MongoDB
+
+        if (!user) {
+            return res.redirect('/auth/login');
+        }
+
+        // Pass both user and menuItems to the menu view
+        res.render('auth/menu', { user, menuItems }); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error loading menu page");
+    }
+});
+
+
 // Route to display the cart page
-router.get('/dashboard/cart', (req, res) => {
+router.get('/dashboard/orders/cart', (req, res) => {
     res.render('auth/cart'); // Render the cart.ejs view
 });
 
