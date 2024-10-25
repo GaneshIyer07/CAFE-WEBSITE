@@ -3,17 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+    <title>Menu | RS Mani Cafe</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css"> <!-- Link to your CSS file if applicable -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+
+        nav {
+            background-color: #1f2937; /* Dark navbar color */
+            padding: 15px; /* Padding for navbar */
+        }
+
+        nav .navbar-brand {
+            color: #ffffff; /* Navbar brand color */
+            font-weight: bold; /* Bold brand text */
+        }
+
+        nav .nav-link {
+            color: #ffffff; /* Navbar link color */
+            margin-left: 20px; /* Spacing between links */
+        }
+
+        nav .nav-link:hover {
+            color: #f97316; /* Change color on hover */
+        }
+
+        .container {
+            margin-top: 30px; /* Space above the container */
+        }
+
+        h1 {
+            color: #1f2937; /* Title color */
+        }
+
+        .card {
+            border-radius: 12px; /* Rounded card corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Card shadow */
+        }
+
+        .card-title {
+            font-size: 1.25rem; /* Card title size */
+        }
+
+        .btn {
+            border-radius: 20px; /* Rounded button corners */
+        }
+    </style>
 </head>
 <body>
-    <div class="container my-5">
-        <!-- Logout Button at the Top -->
-        <div class="d-flex justify-content-end mb-4">
-            <a href="/auth/logout" class="btn btn-danger">Logout</a>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/auth/dashboard">RS MANI CAFE</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
 
+    <div class="container my-5">
         <h1 class="text-center mb-4">Welcome, <%= user.username %>! Here is our Menu:</h1>
 
         <div class="row mb-4">
@@ -33,7 +87,7 @@
 
         <!-- Cart Button at the Bottom Center -->
         <div class="d-flex justify-content-center">
-            <a href="/auth/dashboard/orders/cart" class="btn btn-secondary">Your Cart</a>
+            <a href="/auth/dashboard/orders/cart" class="btn btn-secondary btn-lg">Your Cart</a>
         </div>
 
     </div>
@@ -71,8 +125,6 @@
                 alert(`${itemName} has been added to your cart!`);
             });
         });
-
-        // No need to display cart items on this page
     </script>
 </body>
 </html>

@@ -74,6 +74,11 @@ app.get('/orders', (req, res) => {
 app.get('/displaymenu', (req, res) => {
     res.render('displaymenu');
 });
+
+app.get('/checkout', (req, res) => {
+    res.render('checkout');
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

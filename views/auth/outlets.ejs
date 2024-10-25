@@ -54,10 +54,22 @@
             color: #1f2937; /* Dark color for title */
             text-align: center; /* Center title */
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns for cards */
-            gap: 20px;
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Combine borders */
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd; /* Border for cells */
+            padding: 12px; /* Padding in cells */
+            text-align: center; /* Center text */
+        }
+        th {
+            background-color: #007bff; /* Header background color */
+            color: white; /* Header text color */
+        }
+        tr:hover {
+            background-color: rgba(0, 123, 255, 0.1); /* Row hover effect */
         }
         .outlet-card {
             background-color: #007bff; /* Blue color for cards */
@@ -67,33 +79,10 @@
             text-align: center;
             transition: transform 0.3s ease-in-out;
             cursor: pointer;
-            height: 150px; /* Fixed height for uniformity */
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* Center content vertically */
-            align-items: center; /* Center content horizontally */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .outlet-card:hover {
-            transform: translateY(-10px);
             background-color: #0056b3; /* Darken on hover */
-        }
-        .outlet-card h3 {
-            font-size: 20px;
-            margin: 10px 0;
-        }
-        .outlet-card .icon {
-            font-size: 40px; /* Icon size */
-        }
-        @media(max-width: 1024px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
-            }
-        }
-        @media(max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr; /* 1 column on mobile */
-            }
         }
     </style>
 </head>
@@ -112,38 +101,48 @@
     <div class="content">
         <h1 class="title">Our Outlets</h1>
 
-        <!-- Grid of Outlet Cards -->
-        <div class="grid">
-            <!-- Outlet 1: Tilak Nagar -->
-            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/tilaknagar'">
-                <div class="icon">📍</div> <!-- Location icon -->
-                <h3>Tilak Nagar</h3>
-            </div>
-
-            <!-- Outlet 2: Nesco -->
-            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/nesco'">
-                <div class="icon">📍</div>
-                <h3>Nesco</h3>
-            </div>
-
-            <!-- Outlet 3: Parel -->
-            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/parel'">
-                <div class="icon">📍</div>
-                <h3>Parel</h3>
-            </div>
-
-            <!-- Outlet 4: Parel (Second) -->
-            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/parel'">
-                <div class="icon">📍</div>
-                <h3>Parel (Second)</h3>
-            </div>
-
-            <!-- Outlet 5: Ghatkopar -->
-            <div class="outlet-card" onclick="location.href='https://goo.gl/maps/ghatkopar'">
-                <div class="icon">📍</div>
-                <h3>Ghatkopar</h3>
-            </div>
-        </div>
+        <!-- Outlets Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Outlet Name</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Outlet 1: Tilak Nagar -->
+                <tr>
+                    <td>Tilak Nagar</td>
+                    <td>Location 1</td>
+                    <td><button class="outlet-card" onclick="location.href='https://goo.gl/maps/tilaknagar'">View on Map</button></td>
+                </tr>
+                <!-- Outlet 2: Nesco -->
+                <tr>
+                    <td>Nesco</td>
+                    <td>Location 2</td>
+                    <td><button class="outlet-card" onclick="location.href='https://goo.gl/maps/nesco'">View on Map</button></td>
+                </tr>
+                <!-- Outlet 3: Parel -->
+                <tr>
+                    <td>Parel</td>
+                    <td>Location 3</td>
+                    <td><button class="outlet-card" onclick="location.href='https://goo.gl/maps/parel'">View on Map</button></td>
+                </tr>
+                <!-- Outlet 4: Parel (Second) -->
+                <tr>
+                    <td>Parel (Second)</td>
+                    <td>Location 4</td>
+                    <td><button class="outlet-card" onclick="location.href='https://goo.gl/maps/parel'">View on Map</button></td>
+                </tr>
+                <!-- Outlet 5: Ghatkopar -->
+                <tr>
+                    <td>Ghatkopar</td>
+                    <td>Location 5</td>
+                    <td><button class="outlet-card" onclick="location.href='https://goo.gl/maps/ghatkopar'">View on Map</button></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script src="/node_modules/flowbite/dist/flowbite.js"></script>

@@ -3,6 +3,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/User'); // Make sure the path to your User model is correct
 const Menu = require('../models/Menu'); // Make sure the path to your User model is correct
+const Checkout = require('../models/Checkout'); // Import the Checkout model
 const router = express.Router();
 
 // Middleware to check if user is logged in
@@ -141,7 +142,25 @@ router.get('/dashboard/orders/cart', (req, res) => {
     res.render('auth/cart'); // Render the cart.ejs view
 });
 
+router.get('/dashboard/orders/cart/checkout', (req, res) => {
+    res.render('auth/checkout'); // Render the cart.ejs view
+});
 
+router.post('/dashboard/orders/cart/checkout', isAuthenticated, async (req, res) => {
+    const { address } = req.body; // Get the address from the form submission
+    const userId = req.session.userId; // Get the user ID from the session
+    const items = req.session.cart || []; // Example: assuming you are storing the cart in session
+
+    try {
+        const newCheckout = new Checkout({ userId, items, address }); // Create a new checkout entry
+        await newCheckout.save(); // Save the new order in the database
+        req.session.cart = []; // Clear the cart after placing the order
+        res.redirect('/auth/dashboard/orders'); // Redirect to user orders page after successful checkout
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error placing the order");
+    }
+});
 
 // Logout Handler
 router.get('/logout', (req, res) => {

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const MenuItem = require('../models/Menu'); // Import the MenuItem model
+const Checkout = require('../models/Checkout'); // Import the Checkout model
 
 // Middleware to check if admin is authenticated
 function isAdminAuthenticated(req, res, next) {
@@ -80,5 +81,21 @@ router.post('/dashboard/delete/:id', isAdminAuthenticated, async (req, res) => {
         res.status(500).send("Error deleting menu item");
     }
 });
+
+// View User Checkouts (READ)
+    router.get('/dashboard/checkouts', isAdminAuthenticated, async (req, res) => {
+    try {
+        // Fetch all checkouts and populate user and item details
+        const checkouts = await Checkout.find()
+            .populate('username', 'email') // Adjust the fields you want to display from User
+            .populate('items.itemId'); // Populate item details
+
+        res.render('admin/checkouts', { checkouts }); // Render checkouts view
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error loading checkouts");
+    }
+});
+
 
 module.exports = router;

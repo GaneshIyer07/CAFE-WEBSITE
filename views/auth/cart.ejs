@@ -51,8 +51,7 @@
         <h4 class="text-end mt-4">Grand Total: ₹<span id="grand-total">0.00</span></h4>
 
         <div class="d-flex justify-content-between mt-4">
-            <a href="/auth/dashboard/menu" class="btn btn-primary">Back to Menu</a>
-            <a href="/auth/checkout" class="btn btn-success">Proceed to Checkout</a>
+            <a href="/auth/dashboard/orders/cart/checkout" class="btn btn-success">Proceed to Checkout</a>
         </div>
     </div>
 
@@ -68,6 +67,7 @@
 
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = '<tr><td colspan="5" class="text-center">No items in the cart.</td></tr>';
+                grandTotalContainer.textContent = "0.00"; // Reset grand total if cart is empty
                 return;
             }
 
@@ -92,7 +92,7 @@
                 cartItemsContainer.appendChild(row);
             });
 
-            grandTotalContainer.textContent = grandTotal.toFixed(2);
+            grandTotalContainer.textContent = grandTotal.toFixed(2); // Update grand total
 
             // Add event listeners for "Increase", "Decrease", and "Remove" buttons
             addCartEditFunctionality();
@@ -118,11 +118,11 @@
                     const index = this.getAttribute('data-index');
                     if (cart[index].quantity > 1) {
                         cart[index].quantity -= 1;
+                        sessionStorage.setItem('cart', JSON.stringify(cart));
+                        displayCartItems(); // Refresh the cart display
                     } else {
                         alert("Quantity can't be less than 1");
                     }
-                    sessionStorage.setItem('cart', JSON.stringify(cart));
-                    displayCartItems(); // Refresh the cart display
                 });
             });
 
