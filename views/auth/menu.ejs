@@ -10,45 +10,45 @@
         body {
             background-color: #f8f9fa; /* Light background color */
         }
-
         nav {
             background-color: #1f2937; /* Dark navbar color */
             padding: 15px; /* Padding for navbar */
         }
-
         nav .navbar-brand {
             color: #ffffff; /* Navbar brand color */
             font-weight: bold; /* Bold brand text */
         }
-
         nav .nav-link {
             color: #ffffff; /* Navbar link color */
             margin-left: 20px; /* Spacing between links */
         }
-
         nav .nav-link:hover {
             color: #f97316; /* Change color on hover */
         }
-
         .container {
             margin-top: 30px; /* Space above the container */
         }
-
         h1 {
             color: #1f2937; /* Title color */
         }
-
-        .card {
-            border-radius: 12px; /* Rounded card corners */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Card shadow */
+        .table {
+            margin-bottom: 0; /* Remove bottom margin from tables */
         }
-
-        .card-title {
-            font-size: 1.25rem; /* Card title size */
-        }
-
         .btn {
             border-radius: 20px; /* Rounded button corners */
+        }
+        /* Custom styles for the layout */
+        .menu-cart-container {
+            display: flex; /* Flexbox for two-column layout */
+            justify-content: space-between; /* Space between columns */
+            flex-wrap: wrap; /* Allow items to wrap in smaller screens */
+        }
+        .menu-section, .cart-section {
+            flex: 1; /* Equal width columns */
+            margin-right: 15px; /* Space between columns */
+        }
+        .menu-section:last-child, .cart-section:last-child {
+            margin-right: 0; /* No margin for the last column */
         }
     </style>
 </head>
@@ -70,46 +70,75 @@
     <div class="container my-5">
         <h1 class="text-center mb-4">Welcome, <%= user.username %>! Here is our Menu:</h1>
 
-        <div class="row mb-4">
-            <% menuItems.forEach(item => { %>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title"><strong><%= item.name %></strong></h5>
-                            <h6 class="card-subtitle mb-2 text-muted">₹<%= item.price %></h6>
-                            <p class="card-text"><em><%= item.description %></em></p>
-                            <button class="btn btn-primary add-to-cart-btn" data-id="<%= item._id %>" data-name="<%= item.name %>" data-price="<%= item.price %>">Add to Cart</button>
-                        </div>
-                    </div>
+        <div class="menu-cart-container">
+            <!-- Menu Section -->
+            <div class="menu-section">
+                <h3>Menu</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% menuItems.forEach(item => { %>
+                                <tr>
+                                    <td><strong><%= item.name %></strong></td>
+                                    <td>₹<%= item.price %></td>
+                                    <td>
+                                        <button class="btn btn-primary add-to-cart-btn" data-id="<%= item._id %>" data-name="<%= item.name %>" data-price="<%= item.price %>">Add to Cart</button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
                 </div>
-            <% }); %>
-        </div>
+            </div>
 
-        <!-- Cart Button at the Bottom Center -->
-        <div class="d-flex justify-content-center">
-            <a href="/auth/dashboard/orders/cart" class="btn btn-secondary btn-lg">Your Cart</a>
+            <!-- Cart Section -->
+            <div class="cart-section">
+                <h3>Your Cart</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items">
+                            <!-- Cart items will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="text-end mt-4">Grand Total: ₹<span id="grand-total">0.00</span></h4>
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="/auth/dashboard/orders/cart/checkout" class="btn btn-success">Proceed to Checkout</a>
+                </div>
+            </div>
         </div>
-
     </div>
 
     <script>
         // Function to add items to cart and store in session storage
         document.querySelectorAll('.add-to-cart-btn').forEach(button => {
             button.addEventListener('click', function () {
-                const menuItemId = this.getAttribute('data-id'); // Get the menu item ID
-                const itemName = this.getAttribute('data-name'); // Get the menu item name
-                const itemPrice = parseFloat(this.getAttribute('data-price')); // Get the menu item price
+                const menuItemId = this.getAttribute('data-id');
+                const itemName = this.getAttribute('data-name');
+                const itemPrice = parseFloat(this.getAttribute('data-price'));
 
-                // Get current cart from session storage
                 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-                // Check if the item is already in the cart
                 const existingItemIndex = cart.findIndex(item => item.menuItemId === menuItemId);
                 if (existingItemIndex !== -1) {
-                    // Item already in cart, increase quantity
                     cart[existingItemIndex].quantity += 1;
                 } else {
-                    // Add new item to cart
                     cart.push({
                         menuItemId,
                         itemName,
@@ -118,13 +147,94 @@
                     });
                 }
 
-                // Store the updated cart in session storage
                 sessionStorage.setItem('cart', JSON.stringify(cart));
-
-                // Optionally, display a success message or update cart UI if necessary
-                alert(`${itemName} has been added to your cart!`);
+                displayCartItems(); // Update the cart display
             });
         });
+
+        // Function to display cart items from session storage
+        function displayCartItems() {
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            const cartItemsContainer = document.getElementById('cart-items');
+            const grandTotalContainer = document.getElementById('grand-total');
+            cartItemsContainer.innerHTML = '';
+
+            let grandTotal = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<tr><td colspan="5" class="text-center">No items in the cart.</td></tr>';
+                grandTotalContainer.textContent = "0.00";
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                const itemTotal = (item.itemPrice * item.quantity).toFixed(2);
+                grandTotal += parseFloat(itemTotal);
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${item.itemName}</strong></td>
+                    <td>₹${item.itemPrice.toFixed(2)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-secondary decrease-qty" data-index="${index}">-</button>
+                        <span class="mx-2">${item.quantity}</span>
+                        <button class="btn btn-sm btn-outline-secondary increase-qty" data-index="${index}">+</button>
+                    </td>
+                    <td>₹${itemTotal}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger remove-item" data-index="${index}">Remove</button>
+                    </td>
+                `;
+                cartItemsContainer.appendChild(row);
+            });
+
+            grandTotalContainer.textContent = grandTotal.toFixed(2);
+            addCartEditFunctionality(); // Add functionality for editing cart items
+        }
+
+        // Function to handle editing the cart (increase, decrease, remove items)
+        function addCartEditFunctionality() {
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+            // Increase quantity
+            document.querySelectorAll('.increase-qty').forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = this.getAttribute('data-index');
+                    cart[index].quantity += 1;
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    displayCartItems();
+                });
+            });
+
+            // Decrease quantity
+            document.querySelectorAll('.decrease-qty').forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = this.getAttribute('data-index');
+                    if (cart[index].quantity > 1) {
+                        cart[index].quantity -= 1;
+                        sessionStorage.setItem('cart', JSON.stringify(cart));
+                        displayCartItems();
+                    } else {
+                        alert("Quantity can't be less than 1");
+                    }
+                });
+            });
+
+            // Remove item
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = this.getAttribute('data-index');
+                    cart.splice(index, 1);
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    displayCartItems();
+                });
+            });
+        }
+
+        // Display cart items on page load
+        window.onload = displayCartItems;
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

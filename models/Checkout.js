@@ -1,14 +1,28 @@
-// models/Checkout.js
+const Checkout = require('../models/Checkout'); // Adjust the path according to your folder structure
 const mongoose = require('mongoose');
 
-const checkoutSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    items: [{
-        itemId: { type: mongoose.Schema.Types.ObjectId, ref: 'Menu' }, // Assuming Menu is the menu item model
-        quantity: { type: Number, required: true }
-    }],
-    address: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now }
-});
+const placeOrder = async (req, res) => {
+    const { items, deliveryAddress, userId } = req.body;
 
-module.exports = mongoose.model('Checkout', checkoutSchema);
+    // Calculate total amount
+    const totalAmount = items.reduce((total, item) => total + item.quantity * item.itemPrice, 0); // Ensure itemPrice is available in the item data
+
+    // Create a new checkout entry
+    const checkoutEntry = new Checkout({
+        orderNumber: Date.now(), // or generate a unique order number as needed
+        userId,
+        items,
+        totalAmount,
+        deliveryAddress
+    });
+
+    try {
+        await checkoutEntry.save();
+        return res.status(201).json({ orderNumber: checkoutEntry.orderNumber });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Error placing order. Please try again.' });
+    }
+};
+
+module.exports = { placeOrder };
