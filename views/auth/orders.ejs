@@ -3,163 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Page | RS Mani Cafe</title>
-    <link href="/css/output.css" rel="stylesheet">
+    <title>Dashboard | RS Mani Cafe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ffffff 50%, #f8b400 50%); /* Upper half white, lower half yellow */
+            color: #4b2e20; /* Dark brown for text */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column; /* Stack elements vertically */
         }
-
-        /* Top Navigation Bar */
         nav {
-            background-color: #1f2937; /* Dark navbar */
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between; /* Space between brand and links */
-            align-items: center; /* Center items vertically */
+            background-color: #ffffff; /* White background for navbar */
+            padding: 15px;
+            color: #4b2e20; /* Dark brown for navbar text */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for navbar */
         }
-
         nav .brand {
-            color: #ffffff;
-            font-size: 26px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #4b2e20; /* Dark brown for brand name */
+        }
+        nav .nav-links a {
+            color: #4b2e20; /* Dark brown for nav links */
+            margin-left: 20px;
+            text-decoration: none;
+            font-size: 16px;
             font-weight: bold;
         }
-
-        nav .nav-links a {
-            color: #ffffff;
-            margin: 0 15px; /* Space between links */
-            text-decoration: none;
-            font-size: 18px;
-            transition: color 0.3s ease;
-            padding: 10px; /* Padding for links */
-            border-radius: 5px; /* Rounded corners */
-        }
-
         nav .nav-links a:hover {
-            background-color: rgba(255, 255, 255, 0.2); /* Hover effect */
+            color: #cc7400; /* Darker orange on hover */
         }
-
-        /* Centered Content Area */
-        .content {
-            display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            flex-grow: 1; /* Allow content to grow and take up available space */
-            padding: 20px; /* Padding around the content */
-            text-align: center; /* Center text */
+        .container {
+            background-color: #ffffff; /* White background for content box */
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin: 40px auto; /* Centered margin */
+            max-width: 800px;
+            width: 90%;
+            box-sizing: border-box;
+            color: #4b2e20; /* Dark brown text color */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
         }
-
         .title {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 50px;
-            color: #1f2937; /* Dark color for title */
+            font-size: 3rem;
+            color: #4b2e20; /* Dark brown title color */
+            margin-bottom: 30px; /* Space below title */
         }
-
+        h2 {
+            color: #4b2e20; /* Dark brown for headers */
+        }
         .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns for cards */
-            gap: 25px;
+            grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+            gap: 20px; /* Space between grid items */
+            justify-items: center; /* Center items horizontally */
+            margin-top: 30px; /* Space above the grid */
         }
-
         .order-card {
-            background-color: #ffffff; /* Card color */
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            cursor: pointer;
-            overflow: hidden;
-            text-align: center;
+            background-color: #f8b400; /* Yellow background for order cards */
+            border-radius: 12px; /* Rounded corners */
+            padding: 20px; /* Inner padding */
+            text-align: center; /* Center text */
+            cursor: pointer; /* Pointer on hover */
+            transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+            height: 300px; /* Set a fixed height for uniformity */
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Column layout */
+            justify-content: space-between; /* Space items vertically */
+            width: 100%; /* Ensure full width within grid cell */
+            max-width: 250px; /* Max width for cards */
         }
-
-        .order-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
-
         .order-card img {
-            width: 100%;
-            height: 200px; /* Fixed image height */
-            object-fit: cover;
-            transition: transform 0.3s ease-in-out;
+            width: 100%; /* Full width of the card */
+            height: 150px; /* Fixed height for images */
+            object-fit: cover; /* Cover image while maintaining aspect ratio */
+            border-radius: 8px; /* Rounded corners for images */
         }
-
-        .order-card img:hover {
-            transform: scale(1.05);
-        }
-
         .order-card h3 {
-            font-size: 22px;
-            margin: 15px 0;
-            color: #374151; /* Dark text color */
+            font-size: 18px; /* Title size */
+            color: #4b2e20; /* Dark brown for text */
+            margin-top: 10px; /* Space above title */
         }
-
+        footer {
+            background-color: #f8b400; /* Yellow background for footer */
+            color: #4b2e20; /* Dark brown for footer text */
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+        }
         @media (max-width: 1024px) {
             .grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+                grid-template-columns: repeat(2, 1fr); /* Two columns on smaller screens */
             }
         }
-
         @media (max-width: 768px) {
             .grid {
-                grid-template-columns: 1fr; /* 1 column on mobile */
+                grid-template-columns: 1fr; /* One column on mobile devices */
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Navigation Bar -->
+    <!-- Navbar -->
     <nav>
-        <div class="brand">RS MANI CAFE</div>
-        <div class="nav-links">
-            <a href="/auth/dashboard">Home</a> <!-- Link to Dashboard -->
-            <a href="/auth/logout">Logout</a>
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="brand">RS MANI CAFE</div>
+            <div class="nav-links">
+                <a href="/auth/dashboard">Home</a>
+                <a href="/auth/logout">Logout</a>
+            </div>
         </div>
     </nav>
 
-    <!-- Content Area -->
-    <div class="content">
-        <div>
-            <h1 class="title">Order Your Favorite Dishes</h1>
-
-            <!-- Grid of Order Options -->
-            <div class="grid">
-                <!-- Order Option 1: Zomato -->
-                <div class="order-card">
-                    <a href="/auth/dashboard/orders/menu" style="text-decoration: none; color: inherit;">
-                        <img src="/images/logo.jfif" alt="Home Delivery Tilak Nagar">
-                        <div class="details">
-                            <h3>Home Delivery (Tilak Nagar)</h3>
-                        </div>
-                    </a>
-                </div>
-        
-                <!-- Order Option 2: Swiggy -->
-                <div class="order-card" onclick="location.href='https://www.swiggy.com/city/mumbai/r-s-mani-cafe-tilak-nagar-chembur-rest414109'">
-                    <img src="/images/s.png" alt="Order on Swiggy">
-                    <div class="details">
-                        <h3>Order on Swiggy</h3>
-                    </div>
-                </div>
-
-                <!-- Order Option 3: Home Delivery for Tilak Nagar -->
-                <div class="order-card" onclick="location.href='https://www.zomato.com/mumbai/r-s-mani-cafe-ghatkopar-east'">
-                    <img src="/images/z.jpg" alt="Order on Zomato">
-                    <div class="details">
-                        <h3>Order on Zomato</h3>
-                    </div>
-                </div>
-
+    <!-- Main Content -->
+        <!-- Grid of Order Options -->
+        <div class="grid">
+            <div class="order-card">
+                <a href="/auth/dashboard/orders/menu" style="text-decoration: none; color: inherit;">
+                    <img src="/images/logo.jfif" alt="Home Delivery Tilak Nagar">
+                    <h3>Home Delivery (Tilak Nagar)</h3>
+                </a>
+            </div>
+            <div class="order-card" onclick="window.open('https://www.swiggy.com/city/mumbai/r-s-mani-cafe-tilak-nagar-chembur-rest414109', '_blank')">
+                <img src="/images/s.png" alt="Order on Swiggy">
+                <h3>Order on Swiggy</h3>
+            </div>
+            <div class="order-card" onclick="window.open('https://www.zomato.com/mumbai/r-s-mani-cafe-1-chembur', '_blank')">
+                <img src="/images/z.jpg" alt="Order on Zomato">
+                <h3>Order on Zomato</h3>
             </div>
         </div>
     </div>
 
-    <script src="/node_modules/flowbite/dist/flowbite.js"></script>
+    <!-- Footer -->
+    <footer>&copy; 2024 RS Mani Cafe | Authentic South Indian Flavors!</footer>
+
 </body>
 </html>

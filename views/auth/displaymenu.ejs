@@ -5,111 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu | RS Mani Cafe</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0069d9, #ffdd57); /* Blue gradient background */
-            color: white;
-            margin: 0;
+            background: linear-gradient(to bottom, #ffffff 50%, #f8b400 50%);
+            color: #4b2e20;
             display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
         }
-        /* Sidebar Styles */
-        .sidebar {
-            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
-            width: 250px; /* Fixed width for sidebar */
-            height: 100vh; /* Full height */
-            position: fixed; /* Fix to the side */
-            top: 0;
-            left: 0;
-            padding-top: 20px; /* Spacing at the top */
+        nav {
+            background-color: #ffffff;
+            padding: 15px;
+            color: #4b2e20;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .sidebar a {
-            padding: 10px 15px; /* Padding for links */
+        nav .brand {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4b2e20;
+        }
+        nav .nav-links a {
+            color: #4b2e20;
+            margin-left: 20px;
             text-decoration: none;
-            color: #ffdd57; /* Soft yellow for sidebar links */
-            display: block; /* Block display for easy clicking */
+            font-size: 16px;
+            font-weight: bold;
         }
-        .sidebar a:hover {
-            background-color: rgba(255, 255, 255, 0.2); /* Hover effect */
+        nav .nav-links a:hover {
+            color: #cc7400;
         }
-        .content {
-            margin-left: 250px; /* Leave space for the sidebar */
-            padding: 20px; /* Padding around the content */
-            width: calc(100% - 250px); /* Full width minus sidebar width */
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 2rem;
+            color: #4b2e20;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 40px auto;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
         }
         .menu-header {
-            font-size: 2.5rem;
-            font-weight: bold;
+            font-size: 3rem;
+            color: #4b2e20;
             margin-bottom: 20px;
-            color: #fff9c4; /* Soft yellow for headers */
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-items: center;
+            margin-top: 30px;
         }
         .card {
-            transition: transform 0.3s ease;
-            border: none; /* Remove card borders */
-            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
-            color: #ffdd57; /* Soft yellow for card text */
+            background-color: #f8b400;
+            color: #4b2e20;
+            text-align: center;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
         }
         .card:hover {
-            transform: translateY(-10px); /* Hover effect */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+            transform: translateY(-10px);
+            background-color: #d39400;
         }
         .card-title {
             font-size: 1.5rem;
-            color: #ffdd57; /* Soft yellow for card titles */
         }
         .card-subtitle {
             font-size: 1.2rem;
-            color: #fff9c4; /* Light yellow for subtitles */
-        }
-        .btn-danger {
-            background-color: #dc3545; /* Red color for the logout button */
-            border: none;
-        }
-        .btn-danger:hover {
-            background-color: #c82333; /* Darker red on hover */
         }
         footer {
-            background-color: #1f2937;
-            color: #ffdd57;
+            background-color: #f8b400;
+            color: #4b2e20;
             padding: 20px 0;
             text-align: center;
-            position: fixed; /* Fix the footer to the bottom */
-            width: calc(100% - 250px); /* Full width minus sidebar */
-            left: 250px; /* Align with content area */
-            bottom: 0; /* Align at the bottom */
+            margin-top: auto;
+        }
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2 class="text-center text-warning">RS MANI CAFE</h2>
-        <a href="/auth/dashboard">Home</a>
-        <a href="/auth/logout">Logout</a>
-        <!-- You can add more sidebar links here -->
-    </div>
-
-    <!-- Content Area -->
-    <div class="content">
-        <div class="container">
-            <!-- Menu Header -->
-            <h1 class="text-center menu-header">Welcome, <%= user.username %>! Here is our Menu:</h1>
-
-            <!-- Menu Items -->
-            <div class="row mb-4">
-                <% menuItems.forEach(item => { %>
-                    <div class="col-md-4 mb-3">
-                        <div class="card h-100 text-center p-4">
-                            <div class="card-body">
-                                <h5 class="card-title"><strong><%= item.name %></strong></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">₹<%= item.price %></h6>
-                                <p class="card-text"><em><%= item.description %></em></p>
-                            </div>
-                        </div>
-                    </div>
-                <% }); %>
+    <!-- Navbar -->
+    <nav>
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="brand">RS MANI CAFE</div>
+            <div class="nav-links">
+                <a href="/auth/dashboard">Home</a>
+                <a href="/auth/logout">Logout</a>
             </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="menu-header">Welcome, <%= user.username %>! Here is our Menu:</h1>
+
+        <!-- Menu Grid -->
+        <div class="grid">
+            <% menuItems.forEach(item => { %>
+                <div class="card">
+                    <h5 class="card-title"><strong><%= item.name %></strong></h5>
+                    <h6 class="card-subtitle mb-2">₹<%= item.price %></h6>
+                    <p class="card-text"><em><%= item.description %></em></p>
+                </div>
+            <% }); %>
         </div>
     </div>
 
