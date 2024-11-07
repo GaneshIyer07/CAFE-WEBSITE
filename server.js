@@ -79,6 +79,9 @@ app.get('/checkout', (req, res) => {
     res.render('checkout');
 });
 
+app.get('/order-details', (req, res) => {
+    res.render('order-details');
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

@@ -11,14 +11,21 @@
             height: 100%;
             margin: 0;
         }
+
+        /* New background with half yellow and half white */
+        body {
+            background: linear-gradient(to bottom, #f8b400 50%, #ffffff 30%); /* Yellow on top, white on bottom */
+            color: #4b2e20; /* Dark brown text */
+        }
     </style>
 </head>
-<body class="bg-gray-100">
+<body>
+
     <!-- Navigation Bar -->
     <nav class="bg-white shadow w-full">
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between">
-                <a href="/" class="text-2xl font-bold">RS MANI Cafe</a>
+                <a href="/" class="text-2xl font-bold text-yellow-500">RS MANI Cafe</a>
                 <div>
                     <!-- Additional navigation items can go here -->
                 </div>
@@ -33,9 +40,15 @@
             
             <!-- Success Message -->
             <% if (successMessage) { %>
-                <div class="mb-4 bg-green-100 text-green-800 p-2 rounded">
+                <div class="mb-4 text-green-800 p-2 rounded">
                     <%= successMessage %>
                 </div>
+                <script>
+                    // Redirect to login after 3 seconds
+                    setTimeout(function() {
+                        window.location.href = "/auth/login"; // Redirect to login page
+                    }, 3000);
+                </script>
             <% } %>
             
             <form action="/auth/register" method="POST">
@@ -51,7 +64,8 @@
                     <label for="password" class="block text-gray-700">Password</label>
                     <input type="password" name="password" class="w-full p-2 border border-gray-300 rounded" required>
                 </div>
-                <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 w-full">Register</button>
+                <!-- Register button with customized font -->
+                <button type="submit" class="bg-blue-500 text-black py-2 px-4 rounded hover:bg-blue-600 font-bold w-full">Register</button>
             </form>
         </div>
     </div>

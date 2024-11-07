@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Menu = require('../models/Menu');
@@ -20,7 +21,7 @@ function isAuthenticated(req, res, next) {
 
 // Registration Page
 router.get('/register', (req, res) => {
-    const successMessage = req.query.success === 'true' ? 'Registration successful!' : null;
+    res.render('register', { successMessage: 'Registration successful! Redirecting to login page.' });
     res.render('auth/register', { successMessage });
 });
 
@@ -67,31 +68,17 @@ router.get('/dashboard/displaymenu', isAuthenticated, asyncHandler(async (req, r
     res.render('auth/displaymenu', { menuItems, user });
 }));
 
-// Outlets and Orders Page Routes
-router.get('/dashboard/outlets', isAuthenticated, asyncHandler(async (req, res) => {
+router.get('/dashboard/orders/menu', isAuthenticated, asyncHandler(async (req, res) => {
+    const menuItems = await Menu.find();
     const user = await User.findById(req.session.userId);
-    if (!user) return res.redirect('/auth/login');
-    res.render('auth/outlets', { user });
+    res.render('auth/menu', { menuItems, user });
 }));
 
 router.get('/dashboard/orders', isAuthenticated, asyncHandler(async (req, res) => {
-    const user = await User.findById(req.session.userId);
-    if (!user) return res.redirect('/auth/login');
-    res.render('auth/orders', { user });
-}));
-
-// Menu Page
-router.get('/dashboard/orders/menu', isAuthenticated, asyncHandler(async (req, res) => {
-    const user = await User.findById(req.session.userId);
     const menuItems = await Menu.find();
-    if (!user) return res.redirect('/auth/login');
-    res.render('auth/menu', { user, menuItems }); 
+    const user = await User.findById(req.session.userId);
+    res.render('auth/orders', { menuItems, user });
 }));
-
-// Cart Page
-router.get('/dashboard/orders/cart', isAuthenticated, (req, res) => {
-    res.render('auth/cart');
-});
 
 // Checkout Page
 router.get('/dashboard/orders/cart/checkout', isAuthenticated, (req, res) => {
@@ -126,27 +113,73 @@ router.post('/dashboard/orders/cart/checkout', isAuthenticated, asyncHandler(asy
     }
 
     // Generate a unique order number using OrderCounter
-    const orderCounter = await OrderCounter.findOneAndUpdate(
-        { _id: 'orderCounter' },
-        { $inc: { sequenceValue: 1 } },
-        { new: true, upsert: true }
-    );
-    const orderNumber = orderCounter.sequenceValue;
+    try {
+        const orderCounter = await OrderCounter.findOneAndUpdate(
+            { _id: 'orderCounter' },  // Correctly use string _id
+            { $inc: { sequenceValue: 1 } },
+            { new: true, upsert: true } // Create document if not found, and return the updated document
+        );
 
-    // Save the checkout order
-    const newCheckout = new Checkout({
-        orderNumber,
-        userId,
-        items: itemsArray,
-        totalAmount,
-        deliveryAddress,
-        orderStatus: 'Pending'
-    });
-    await newCheckout.save();
+        if (!orderCounter) {
+            console.error('Order counter is missing or failed to increment');
+            return res.status(500).json({ error: 'Failed to generate order number' });
+        }
 
-    // Respond with confirmation
-    res.status(201).json({ message: 'Order placed successfully', orderNumber });
+        const orderNumber = orderCounter.sequenceValue;
+
+        // Save the checkout order
+        const newCheckout = new Checkout({
+            orderNumber,           // Use the orderNumber from the counter
+            userId,                // User placing the order
+            items: itemsArray,     // Items ordered
+            totalAmount,           // Total amount calculated
+            deliveryAddress,       // Delivery address from the request
+            orderStatus: 'Pending' // Set initial order status to 'Pending'
+        });
+
+        await newCheckout.save();
+
+        // Respond with confirmation
+        res.status(201).json({ message: 'Order placed successfully', orderNumber });
+    } catch (error) {
+        console.error('Error while placing order:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
 }));
+
+
+router.get('/dashboard/orders/:orderId', async (req, res) => {
+    try {
+        const orderId = req.params.orderId;
+
+        // Validate if the orderId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(orderId)) {
+            return res.status(400).send('Invalid Order ID');
+        }
+
+        // Fetch the order from the database
+        const order = await Checkout.findById(orderId)
+            .populate('userId', 'username')
+            .populate('items.itemId', 'name price');
+
+        // Check if the order exists
+        if (!order) {
+            return res.status(404).send('Order not found');
+        }
+
+        // Check if the logged-in user is authorized to view this order
+        if (order.userId._id.toString() !== req.user._id.toString()) {
+            return res.status(403).send('Unauthorized');
+        }
+
+        // Render the order details page
+        res.render('user/order-details', { order }); // Adjust the template name if needed
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
 
 // Logout Handler
 router.get('/logout', (req, res) => {

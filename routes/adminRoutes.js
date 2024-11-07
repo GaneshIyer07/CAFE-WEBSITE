@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const MenuItem = require('../models/Menu'); // Import the MenuItem model
 const Checkout = require('../models/Checkout'); // Import the Checkout model
-const OrderCounter = require('../models/OrderCounter');
+const OrderCounter = require('../models/OrderCounter'); // Import the OrderCounter model
 
 // Middleware to check if admin is authenticated
 function isAdminAuthenticated(req, res, next) {
@@ -86,8 +86,8 @@ router.post('/dashboard/delete/:id', isAdminAuthenticated, async (req, res) => {
 router.get('/dashboard/checkout', isAdminAuthenticated, async (req, res) => {
     try {
         const checkouts = await Checkout.find()
-            .populate('userId')              // Populate user details
-            .populate('items.itemId');       // Populate each item's details
+            .populate('userId')              // Populate user details (username)
+            .populate('items.itemId');       // Populate each item's details (name, price)
 
         res.render('admin/checkout', { checkouts, error: null }); // Pass error as null if no error
     } catch (error) {
@@ -101,15 +101,65 @@ router.patch('/dashboard/checkout/:checkoutId/status', isAdminAuthenticated, asy
     const { checkoutId } = req.params;
     const { orderStatus } = req.body;
 
+    // List of valid order statuses
+    const validStatuses = ['Pending', 'Preparing', 'Out for Delivery', 'Delivered'];
+
+    // Check if the provided order status is valid
+    if (!validStatuses.includes(orderStatus)) {
+        return res.status(400).send("Invalid order status");
+    }
+
     try {
-        const result = await Checkout.findByIdAndUpdate(checkoutId, { orderStatus });
+        const result = await Checkout.findByIdAndUpdate(checkoutId, { orderStatus }, { new: true });
+
         if (!result) {
             return res.status(404).send("Checkout not found");
         }
-        res.sendStatus(200); // Send success status
+
+        // Return success response
+        res.status(200).json({ message: "Order status updated successfully", checkout: result });
     } catch (error) {
         console.error("Error updating order status:", error);
-        res.sendStatus(500); // Send error status if update fails
+        res.status(500).send("Error updating order status");
+    }
+});
+
+// Route to get the order count for generating the order number
+router.get('/dashboard/order-count', isAdminAuthenticated, async (req, res) => {
+    try {
+        const orderCounter = await OrderCounter.findOne();  // Find the order counter document
+
+        if (!orderCounter) {
+            // If no counter exists, create a new one starting at 1
+            const newCounter = new OrderCounter({ count: 1 });
+            await newCounter.save();
+            return res.json({ orderCount: 1 });
+        }
+
+        // If counter exists, increment it by 1 and save
+        orderCounter.count += 1;
+        await orderCounter.save();
+
+        res.json({ orderCount: orderCounter.count });
+    } catch (error) {
+        console.error("Error fetching order count:", error);
+        res.status(500).send("Error fetching order count");
+    }
+});
+
+// Handle deleting an order (DELETE)
+router.post('/dashboard/checkout/:checkoutId/delete', isAdminAuthenticated, async (req, res) => {
+    const { checkoutId } = req.params;
+
+    try {
+        const result = await Checkout.findByIdAndDelete(checkoutId); // Delete the checkout (order)
+        if (!result) {
+            return res.status(404).send("Order not found");
+        }
+        res.redirect('/admin/dashboard/checkout'); // Redirect to checkouts page after deletion
+    } catch (error) {
+        console.error("Error deleting order:", error);
+        res.status(500).send("Error deleting order");
     }
 });
 

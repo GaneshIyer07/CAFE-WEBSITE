@@ -1,28 +1,30 @@
-const Checkout = require('../models/Checkout'); // Adjust the path according to your folder structure
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const placeOrder = async (req, res) => {
-    const { items, deliveryAddress, userId } = req.body;
+// Define the Checkout schema
+const checkoutSchema = new Schema(
+  {
+    orderNumber: { type: Number, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Referring to User model
+    items: [
+      {
+        itemId: { type: mongoose.Schema.Types.ObjectId, ref: 'MenuItem', required: true }, // Referring to MenuItem model (change from 'Menu' to 'MenuItem')
+        quantity: { type: Number, required: true }
+      }
+    ],
+    totalAmount: { type: Number, required: true },
+    deliveryAddress: {
+      flatNo: { type: String, required: true },
+      buildingNo: { type: String, required: true },
+      buildingName: { type: String, required: true },
+      nearby: { type: String, required: true },
+      pincode: { type: String, required: true },
+      phoneNo: { type: String, required: true }
+    },
+    orderStatus: { type: String, default: 'Pending' } // Status defaults to 'Pending'
+  },
+  { collection: 'checkouts' } // Ensure it uses the 'checkouts' collection
+);
 
-    // Calculate total amount
-    const totalAmount = items.reduce((total, item) => total + item.quantity * item.itemPrice, 0); // Ensure itemPrice is available in the item data
-
-    // Create a new checkout entry
-    const checkoutEntry = new Checkout({
-        orderNumber: Date.now(), // or generate a unique order number as needed
-        userId,
-        items,
-        totalAmount,
-        deliveryAddress
-    });
-
-    try {
-        await checkoutEntry.save();
-        return res.status(201).json({ orderNumber: checkoutEntry.orderNumber });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Error placing order. Please try again.' });
-    }
-};
-
-module.exports = { placeOrder };
+// Export the Checkout model
+module.exports = mongoose.model('Checkout', checkoutSchema);

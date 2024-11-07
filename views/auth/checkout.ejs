@@ -7,17 +7,88 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f3f4f6;
+            background: linear-gradient(to bottom, #ffffff 50%, #f8b400 50%); /* Upper half white, lower half yellow */
+            color: #4b2e20;
         }
+
+        /* Navbar style */
+        nav {
+            background-color: #ffffff; /* White background for navbar */
+            padding: 15px;
+            color: #4b2e20;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .navbar-brand {
+            font-size: 30px;
+            font-weight: bold;
+            color: #4b2e20;
+        }
+
+        nav .nav-link {
+            color: #4b2e20;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        nav .nav-link:hover {
+            color: #cc7400;
+        }
+
+        /* Main content styles */
         .container {
-            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 2rem;
+            margin-top: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-success {
+            background-color: #f8b400;
+            border-color: #f8b400;
+        }
+
+        .btn-success:hover {
+            background-color: #ff9d00;
+            border-color: #ff9d00;
+        }
+
+        /* Order Summary Section */
+        .order-summary {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #f8b400;
+        }
+
+        footer {
+            background-color: #f8b400;
+            color: #4b2e20;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* Media Query for Responsiveness */
+        @media (max-width: 1024px) {
+            .row {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">RS MANI CAFE</a>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -33,61 +104,68 @@
         </div>
     </nav>
 
+    <!-- Checkout Page -->
     <div class="container">
         <h1 class="text-center mb-4">Checkout</h1>
 
-        <!-- Order Summary -->
-        <h4>Your Order</h4>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Item</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody id="order-summary">
-                    <!-- Order items will be dynamically inserted here -->
-                </tbody>
-            </table>
+        <!-- Two Column Layout -->
+        <div class="row">
+            <!-- Left Column: Menu -->
+            <div class="col-lg-6">
+                <h4>Your Order</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="order-summary">
+                            <!-- Order items will be dynamically displayed here -->
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="text-end mt-4">Grand Total: ₹<span id="grand-total">0.00</span></h4>
+            </div>
+
+            <!-- Right Column: Delivery Form -->
+            <div class="col-lg-6">
+                <h4>Delivery Address</h4>
+                <form id="address-form">
+                    <div class="mb-3">
+                        <label for="flat-no" class="form-label">Flat No.*</label>
+                        <input type="text" class="form-control" id="flat-no" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="building-no" class="form-label">Building No.*</label>
+                        <input type="text" class="form-control" id="building-no" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="building-name" class="form-label">Building Name.*</label>
+                        <input type="text" class="form-control" id="building-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nearby" class="form-label">Nearby</label>
+                        <input type="text" class="form-control" id="nearby">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pincode" class="form-label">Pincode*</label>
+                        <input type="text" class="form-control" id="pincode" required pattern="\d{6}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-no" class="form-label">Phone No.*</label>
+                        <input type="tel" class="form-control" id="phone-no" required pattern="\d{10}">
+                    </div>
+                    <button type="submit" class="btn btn-success">Place Order</button>
+                </form>
+            </div>
         </div>
 
-        <h4 class="text-end mt-4">Grand Total: ₹<span id="grand-total">0.00</span></h4>
-
-        <!-- Address Form -->
-        <h4 class="mt-4">Delivery Address</h4>
-        <form id="address-form">
-            <div class="mb-3">
-                <label for="flat-no" class="form-label">Flat No.*</label>
-                <input type="text" class="form-control" id="flat-no" required>
-            </div>
-            <div class="mb-3">
-                <label for="building-no" class="form-label">Building No.*</label>
-                <input type="text" class="form-control" id="building-no" required>
-            </div>
-            <div class="mb-3">
-                <label for="building-name" class="form-label">Building Name.*</label>
-                <input type="text" class="form-control" id="building-name" required>
-            </div>
-            <div class="mb-3">
-                <label for="nearby" class="form-label">Nearby</label>
-                <input type="text" class="form-control" id="nearby">
-            </div>
-            <div class="mb-3">
-                <label for="pincode" class="form-label">Pincode*</label>
-                <input type="text" class="form-control" id="pincode" required pattern="\d{6}">
-            </div>
-            <div class="mb-3">
-                <label for="phone-no" class="form-label">Phone No.*</label>
-                <input type="tel" class="form-control" id="phone-no" required pattern="\d{10}">
-            </div>
-            <button type="submit" class="btn btn-success">Place Order</button>
-        </form>
-
-        <!-- Order Confirmation -->
-        <div id="order-confirmation" class="mt-4" style="display: none;">
+        <!-- Order Confirmation Section -->
+        <div id="order-confirmation" class="order-summary mt-4" style="display: none;">
             <h4>Order Confirmed!</h4>
             <p>Your Order Number is: <span id="order-number"></span></p>
             <p>Status: <span id="order-status">Processing</span></p>
@@ -140,34 +218,41 @@
                 phoneNo: document.getElementById('phone-no').value
             };
 
-            const cart = JSON.parse(sessionStorage.getItem('cart')) || []; // Retrieve cart items from sessionStorage
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
             const items = cart.map(item => ({
-                itemId: item.itemId, // Ensure this matches the ID from your Menu model
+                itemId: item.menuItemId,
                 quantity: item.quantity
             }));
 
-            const response = await fetch('/auth/dashboard/orders/cart/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items, deliveryAddress: address })  // Send items and deliveryAddress
-            });
+            try {
+                const response = await fetch('/auth/dashboard/orders/cart/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items, deliveryAddress: address })
+                });
 
-            if (response.ok) {
-                const result = await response.json();
-                document.getElementById('order-number').textContent = result.orderNumber;
-                document.getElementById('order-confirmation').style.display = 'block';
-                this.reset();
-                sessionStorage.removeItem('cart');
-            } else {
-                alert("Error placing order.");
+                if (response.ok) {
+                    const result = await response.json();
+                    document.getElementById('order-number').textContent = result.orderNumber;
+                    document.getElementById('order-confirmation').style.display = 'block';
+                    this.reset();
+                    sessionStorage.removeItem('cart');
+                } else {
+                    alert("Error placing order. Please check your network or try again.");
+                }
+            } catch (error) {
+                console.error("Order placement error:", error);
+                alert("There was an error while placing your order. Please try again.");
             }
         });
 
-        // Display order items on page load
-        window.onload = displayOrderItems;
+        // Initialize the page
+        displayOrderItems();
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <footer>
+        <p>&copy; 2024 RS Mani Cafe. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
