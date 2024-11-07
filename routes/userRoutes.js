@@ -21,8 +21,7 @@ function isAuthenticated(req, res, next) {
 
 // Registration Page
 router.get('/register', (req, res) => {
-    res.render('register', { successMessage: 'Registration successful! Redirecting to login page.' });
-    res.render('auth/register', { successMessage });
+    res.render('auth/register');
 });
 
 // Registration Handler
@@ -72,6 +71,12 @@ router.get('/dashboard/orders/menu', isAuthenticated, asyncHandler(async (req, r
     const menuItems = await Menu.find();
     const user = await User.findById(req.session.userId);
     res.render('auth/menu', { menuItems, user });
+}));
+
+router.get('/dashboard/outlets', isAuthenticated, asyncHandler(async (req, res) => {
+    const menuItems = await Menu.find();
+    const user = await User.findById(req.session.userId);
+    res.render('auth/outlets', { menuItems, user });
 }));
 
 router.get('/dashboard/orders', isAuthenticated, asyncHandler(async (req, res) => {
