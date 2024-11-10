@@ -3,83 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link href="/css/output.css" rel="stylesheet">
+    <title>Register | RS Mani Cafe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Ensure the body takes full height for flex centering */
         body, html {
             height: 100%;
             margin: 0;
+            background: linear-gradient(to bottom, #ffffff 50%, #f8b400 50%);
+            color: #4b2e20;
         }
 
-        /* New background with half yellow and half white */
-        body {
-            background: linear-gradient(to bottom, #f8b400 50%, #ffffff 30%); /* Yellow on top, white on bottom */
-            color: #4b2e20; /* Dark brown text */
-        }
-
-        /* Styling for Navbar */
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            width: 100%;
-            z-index: 10;
-        }
-        .navbar-content {
+        /* Styling for registration form container */
+        .register-container {
+            height: 80vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
-            gap: 2rem;
+            margin-top: 50px; /* Added margin from top */
         }
-        .navbar-link {
-            font-size: 1.125rem; /* Equivalent to text-lg */
+        .register-form-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        .register-form-container h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .register-form-container .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .register-form-container .form-group label {
             color: #4b2e20;
-            font-weight: 600;
-            transition: color 0.3s;
         }
-        .navbar-link:hover {
-            color: #1d4ed8; /* Blue on hover */
+        .register-form-container .btn-warning {
+            width: 100%;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .login-link a {
+            color: #4b2e20;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="navbar-content">
-            <!-- RS MANI Cafe Logo -->
-            <a href="/" class="text-2xl font-bold text-yellow-500">RS MANI Cafe</a>
-            <!-- Home Link -->
-            <a href="/auth/dashboard" class="navbar-link">Home</a>
-        </div>
-    </nav>
+    <!-- Registration Form Container -->
+    <div class="container">
+        <div class="register-container">
+            <div class="register-form-container">
+                <!-- Logo and Brand Name -->
+                <div class="text-center mb-4">
+                    <img src="/images/logo.jfif" alt="RS Mani Cafe Logo" width="80">
+                    <h1>RS Mani Cafe</h1>
+                </div>
 
-    <!-- Centering the form in the middle -->
-    <div class="flex items-center justify-center" style="height: 100vh; padding-top: 6rem;">
-        <div class="max-w-md w-full bg-white p-6 shadow-lg rounded">
-            <h2 class="text-2xl font-bold mb-4 text-center">Register</h2>
-            
-            <form action="/auth/register" method="POST">
-                <div class="mb-4">
-                    <label for="username" class="block text-gray-700">Username</label>
-                    <input type="text" name="username" class="w-full p-2 border border-gray-300 rounded" required>
+                <h2>Register</h2>
+                <form action="/auth/register" method="POST">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Register</button>
+                </form>
+
+                <!-- Already Registered Link -->
+                <div class="login-link">
+                    <p>Already registered? <a href="/auth/login">Login here</a></p>
                 </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700">Email</label>
-                    <input type="email" name="email" class="w-full p-2 border border-gray-300 rounded" required>
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-700">Password</label>
-                    <input type="password" name="password" class="w-full p-2 border border-gray-300 rounded" required>
-                </div>
-                <!-- Register button with customized font -->
-                <button type="submit" class="bg-blue-500 text-blue-950 py-2 px-4 rounded hover:bg-blue-600 font-bold w-full">Register</button>
-            </form>
+            </div>
         </div>
     </div>
 
-    <script src="/node_modules/flowbite/dist/flowbite.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -12,32 +12,37 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(to bottom, #ffffff 50%, #f8b400 50%); /* Upper half white, lower half yellow */
-            font-family: 'Poppins', sans-serif; /* Modern font */
-            color: #4b2e20; /* Dark brown text color */
+            background: linear-gradient(to bottom, #ffffff 50%, #f8b400 50%);
+            font-family: 'Poppins', sans-serif;
+            color: #4b2e20;
         }
         .login-container {
-            background: linear-gradient(to bottom, #f8b400 50%, #ffffff 50%); /* Upper half yellow, lower half white */
+            background-color: #ffffff; /* Solid white background for login container */
             padding: 2.5rem;
             border-radius: 10px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
-            color: #4b2e20; /* Dark brown text for contrast */
+            color: #4b2e20;
+            text-align: center;
+        }
+        .logo {
+            width: 80px; /* Adjust the size of the logo */
+            height: auto;
+            margin-bottom: 1rem;
         }
         .login-container h2 {
-            text-align: center;
             font-size: 1.8rem;
             margin-bottom: 1.5rem;
-            color: black; /* Change title color to black */
+            color: black;
         }
         .form-group {
-            margin-bottom: 1rem; /* Space between the form groups */
+            margin-bottom: 1rem;
         }
         .form-group label {
             font-size: 1rem;
             margin-bottom: 0.5rem;
-            color: #4b2e20; /* Dark brown for labels */
+            color: #4b2e20;
         }
         .form-group input {
             width: 100%;
@@ -46,13 +51,10 @@
             border-radius: 4px;
             font-size: 1rem;
         }
-        .email-group {
-            margin-bottom: 2rem; /* Space between email and password sections */
-        }
         .form-group button {
             width: 100%;
             padding: 0.75rem;
-            background-color: #ff9000; /* Bold orange color */
+            background-color: #ff9000;
             color: white;
             border: none;
             border-radius: 4px;
@@ -61,17 +63,17 @@
             transition: background-color 0.3s ease;
         }
         .form-group button:hover {
-            background-color: #cc7400; /* Darker orange on hover */
+            background-color: #cc7400;
         }
         .toggle-link {
             text-align: center;
             margin-top: 1rem;
-            color: black; /* Change toggle link color to black if needed */
+            color: black;
         }
         .toggle-link a {
             text-decoration: none;
             font-weight: bold;
-            color: black; /* Change link color to black */
+            color: black;
         }
         .toggle-link a:hover {
             text-decoration: underline;
@@ -79,14 +81,12 @@
         .admin {
             border: 2px solid #d39400;
         }
-        /* Remove specific admin header color */
-        /* .admin h2 {
-            color: #d39400; // This line is removed or commented out
-        } */
     </style>
 </head>
 <body>
     <div class="login-container" id="loginContainer">
+        <!-- Logo Image Above Login Header -->
+        <img src="/images/logo.jfif" alt="Cafe Logo" class="logo">
         <h2 id="loginTitle">User Login</h2>
         <form action="/auth/login" method="POST" id="loginForm">
             <div class="form-group email-group">
@@ -120,10 +120,9 @@
                 document.querySelector('.toggle-link a').textContent = "Switch to Admin Login";
             } else {
                 loginTitle.textContent = "Admin Login";
-                loginForm.action = "/auth/login"; // Adjust if needed
+                loginForm.action = "/auth/login";
                 loginContainer.classList.add('admin');
-                // Set the admin login title color to black
-                loginTitle.style.color = "black"; // Ensure the admin title is also black
+                loginTitle.style.color = "black";
                 document.querySelector('.toggle-link a').textContent = "Switch to User Login";
             }
             isAdmin = !isAdmin;

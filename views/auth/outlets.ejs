@@ -25,6 +25,13 @@
             font-size: 28px;
             font-weight: bold;
             color: #4b2e20;
+            display: flex;
+            align-items: center;
+        }
+        nav .brand img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
         }
         nav .nav-links a {
             color: #4b2e20;
@@ -95,7 +102,10 @@
     <!-- Navbar -->
     <nav>
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="brand">RS MANI CAFE</div>
+            <div class="brand">
+                <img src="/images/logo.jfif" alt="RS Mani Cafe Logo"> 
+                RS MANI CAFE
+            </div>
             <div class="nav-links">
                 <a href="/auth/dashboard">Home</a>
                 <a href="/auth/logout">Logout</a>
@@ -106,8 +116,6 @@
     <!-- Content Area -->
     <div class="container">
         <h1 class="title">Our Outlets</h1>
-
-        <!-- Outlets Table -->
         <table>
             <thead>
                 <tr>

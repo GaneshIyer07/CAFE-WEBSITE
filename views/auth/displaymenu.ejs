@@ -26,6 +26,13 @@
             font-size: 28px;
             font-weight: bold;
             color: #4b2e20;
+            display: flex;
+            align-items: center;
+        }
+        nav .brand img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
         }
         nav .nav-links a {
             color: #4b2e20;
@@ -35,6 +42,9 @@
             font-weight: bold;
         }
         nav .nav-links a:hover {
+            color: #cc7400;
+        }
+        nav .nav-links a.active {
             color: #cc7400;
         }
         .container {
@@ -67,12 +77,13 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             cursor: pointer;
         }
         .card:hover {
             transform: translateY(-10px);
             background-color: #d39400;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
         .card-title {
             font-size: 1.5rem;
@@ -104,7 +115,10 @@
     <!-- Navbar -->
     <nav>
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="brand">RS MANI CAFE</div>
+            <div class="brand">
+                <img src="/images/logo.jfif" alt="RS Mani Cafe Logo">
+                RS MANI CAFE
+            </div>
             <div class="nav-links">
                 <a href="/auth/dashboard">Home</a>
                 <a href="/auth/logout">Logout</a>

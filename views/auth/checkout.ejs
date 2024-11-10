@@ -7,35 +7,35 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to bottom, #ffffff 50%, #f8b400 50%); /* Upper half white, lower half yellow */
+            background: linear-gradient(to bottom, #ffffff 50%, #f8b400 50%);
             color: #4b2e20;
         }
-
-        /* Navbar style */
         nav {
-            background-color: #ffffff; /* White background for navbar */
+            background-color: #ffffff;
             padding: 15px;
             color: #4b2e20;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         nav .navbar-brand {
             font-size: 30px;
             font-weight: bold;
             color: #4b2e20;
+            display: flex;
+            align-items: center;
         }
-
+        nav .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
         nav .nav-link {
             color: #4b2e20;
             font-size: 18px;
             font-weight: bold;
         }
-
         nav .nav-link:hover {
             color: #cc7400;
         }
-
-        /* Main content styles */
         .container {
             background-color: #ffffff;
             padding: 2rem;
@@ -43,45 +43,20 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        .table th, .table td {
-            vertical-align: middle;
-        }
-
-        .form-label {
-            font-weight: bold;
-        }
-
         .btn-success {
             background-color: #f8b400;
             border-color: #f8b400;
         }
-
         .btn-success:hover {
             background-color: #ff9d00;
             border-color: #ff9d00;
         }
-
-        /* Order Summary Section */
-        .order-summary {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #f8b400;
-        }
-
         footer {
             background-color: #f8b400;
             color: #4b2e20;
             padding: 20px 0;
             text-align: center;
             margin-top: auto;
-        }
-
-        /* Media Query for Responsiveness */
-        @media (max-width: 1024px) {
-            .row {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -90,7 +65,10 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">RS MANI CAFE</a>
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo.jfif" alt="RS Mani Cafe Logo">
+                RS MANI CAFE
+            </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -108,9 +86,7 @@
     <div class="container">
         <h1 class="text-center mb-4">Checkout</h1>
 
-        <!-- Two Column Layout -->
         <div class="row">
-            <!-- Left Column: Menu -->
             <div class="col-lg-6">
                 <h4>Your Order</h4>
                 <div class="table-responsive">
@@ -124,7 +100,7 @@
                             </tr>
                         </thead>
                         <tbody id="order-summary">
-                            <!-- Order items will be dynamically displayed here -->
+                            <!-- Order items dynamically displayed here -->
                         </tbody>
                     </table>
                 </div>
@@ -148,12 +124,12 @@
                         <input type="text" class="form-control" id="building-name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="nearby" class="form-label">Nearby</label>
-                        <input type="text" class="form-control" id="nearby">
+                        <label for="nearby" class="form-label">Nearby*</label>
+                        <input type="text" class="form-control" id="nearby" required>
                     </div>
                     <div class="mb-3">
                         <label for="pincode" class="form-label">Pincode*</label>
-                        <input type="text" class="form-control" id="pincode" required pattern="\d{6}">
+                        <input type="text" class="form-control" id="pincode" value="400089" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="phone-no" class="form-label">Phone No.*</label>
@@ -164,7 +140,6 @@
             </div>
         </div>
 
-        <!-- Order Confirmation Section -->
         <div id="order-confirmation" class="order-summary mt-4" style="display: none;">
             <h4>Order Confirmed!</h4>
             <p>Your Order Number is: <span id="order-number"></span></p>
@@ -173,7 +148,6 @@
     </div>
 
     <script>
-        // Function to display order items from session storage
         function displayOrderItems() {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
             const orderSummaryContainer = document.getElementById('order-summary');
@@ -205,9 +179,8 @@
             grandTotalContainer.textContent = grandTotal.toFixed(2);
         }
 
-        // Function to handle order placement
         document.getElementById('address-form').addEventListener('submit', async function (event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault();
 
             const address = {
                 flatNo: document.getElementById('flat-no').value,
@@ -219,7 +192,6 @@
             };
 
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
             const items = cart.map(item => ({
                 itemId: item.menuItemId,
                 quantity: item.quantity
@@ -247,7 +219,6 @@
             }
         });
 
-        // Initialize the page
         displayOrderItems();
     </script>
 

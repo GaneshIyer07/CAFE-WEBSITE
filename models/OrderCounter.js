@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const orderCounterSchema = new Schema(
-    {
-        _id: { type: String, required: true },  // Treat _id as a string
-        sequenceValue: { type: Number, required: true }
-    },
-    { _id: false } // To prevent auto-generated ObjectId
-);
+const orderCounterSchema = new Schema({
+    _id: { type: String, required: true }, 
+    sequenceValue: { type: Number, default: 1, required: true }
+}, {
+    _id: false 
+});
 
 const OrderCounter = mongoose.model('OrderCounter', orderCounterSchema);
 
