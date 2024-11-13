@@ -154,35 +154,46 @@
                     </thead>
                     <tbody>
                         <% checkouts.forEach(checkout => { %>
-                            <% checkout.items.forEach(item => { %>
-                                <tr>
-                                    <td><%= checkout.orderNumber %></td>
-                                    <td><%= checkout.userId.username %></td>
-                                    <td><%= item.itemId.name %></td>
-                                    <td><%= item.quantity %></td>
-                                    <td>₹<%= checkout.totalAmount %></td>
-                                    <td>
-                                        <%= checkout.deliveryAddress.flatNo %>, 
-                                        <%= checkout.deliveryAddress.buildingNo %>, 
-                                        <%= checkout.deliveryAddress.buildingName %>, 
-                                        <%= checkout.deliveryAddress.nearby %>, 
-                                        <%= checkout.deliveryAddress.pincode %>
-                                    </td>
-                                    <td>
-                                        <select onchange="updateOrderStatus('<%= checkout._id %>', this.value)">
-                                            <option value="Pending" <%= checkout.orderStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
-                                            <option value="Preparing" <%= checkout.orderStatus === 'Preparing' ? 'selected' : '' %>>Preparing</option>
-                                            <option value="Out for Delivery" <%= checkout.orderStatus === 'Out for Delivery' ? 'selected' : '' %>>Out for Delivery</option>
-                                            <option value="Delivered" <%= checkout.orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
-                                        </select>
-                                    </td>
-                                    <td class="action-buttons">
-                                        <button onclick="deleteOrder('<%= checkout._id %>')">Delete</button>
-                                    </td>
-                                </tr>
-                            <% }) %>
+                            <tr>
+                                <td><%= checkout.orderNumber %></td>
+                                <td><%= checkout.userId ? checkout.userId.username : 'Unknown' %></td>
+                                <td colspan="3">
+                                    <table class="table">
+                                        <tr>
+                                            <td><%= checkout.items[0].itemId ? checkout.items[0].itemId.name : 'Unknown' %></td>
+                                            <td><%= checkout.items[0].quantity %></td>
+                                            <td>₹<%= checkout.items[0].itemId ? checkout.items[0].itemId.price * checkout.items[0].quantity : 0 %></td>
+                                        </tr>
+                                        <% checkout.items.slice(1).forEach(item => { %>
+                                            <tr>
+                                                <td><%= item.itemId ? item.itemId.name : 'Unknown' %></td>
+                                                <td><%= item.quantity %></td>
+                                                <td>₹<%= item.itemId ? item.itemId.price * item.quantity : 0 %></td>
+                                            </tr>
+                                        <% }) %>
+                                    </table>
+                                </td>
+                                <td>
+                                    <%= checkout.deliveryAddress.flatNo %>, 
+                                    <%= checkout.deliveryAddress.buildingNo %>, 
+                                    <%= checkout.deliveryAddress.buildingName %>, 
+                                    <%= checkout.deliveryAddress.nearby %>, 
+                                    <%= checkout.deliveryAddress.pincode %>
+                                </td>
+                                <td>
+                                    <select onchange="updateOrderStatus('<%= checkout._id %>', this.value)">
+                                        <option value="Pending" <%= checkout.orderStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                        <option value="Processing" <%= checkout.orderStatus === 'Processing' ? 'selected' : '' %>>Processing</option>
+                                        <option value="Completed" <%= checkout.orderStatus === 'Completed' ? 'selected' : '' %>>Completed</option>
+                                        <option value="Delivered" <%= checkout.orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                    </select>
+                                </td>
+                                <td class="action-buttons">
+                                    <button onclick="deleteOrder('<%= checkout._id %>')">Delete</button>
+                                </td>
+                            </tr>
                         <% }) %>
-                    </tbody>
+                    </tbody>                                     
                 </table>
             </div>
         <% } else { %>
@@ -191,24 +202,27 @@
     </div>
 
     <script>
-        function updateOrderStatus(checkoutId, status) {
-            fetch(`/admin/dashboard/checkout/${checkoutId}/status`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ orderStatus: status }),
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Order status updated!');
-                    location.reload();
-                } else {
-                    alert('Error updating order status');
-                }
-            });
+       function updateOrderStatus(checkoutId, status) {
+    fetch(`/admin/dashboard/checkout/${checkoutId}/status`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderStatus: status }),  // Sending order status in the body
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Order status updated!');
+            location.reload();  // Refresh the page to reflect the updated status
+        } else {
+            alert('Error updating order status');
         }
-
+    })
+    .catch(error => {
+        alert('Error updating order status');
+        console.error(error);
+    });
+}
         function deleteOrder(checkoutId) {
             fetch(`/admin/dashboard/checkout/${checkoutId}/delete`, {
                 method: 'DELETE',
@@ -216,10 +230,14 @@
             .then(response => {
                 if (response.ok) {
                     alert('Order deleted!');
-                    location.reload();
+                    location.reload();  // Refresh the page to reflect the changes
                 } else {
                     alert('Error deleting order');
                 }
+            })
+            .catch(error => {
+                alert('Error deleting order');
+                console.error(error);
             });
         }
     </script>
