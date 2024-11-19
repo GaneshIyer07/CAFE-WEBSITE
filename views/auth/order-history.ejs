@@ -4,24 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order History</title>
+    <!-- Include the Socket.IO client script -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Connect to Socket.IO server
+        const socket = io();
+
+        // Listen for the 'orderStatusChanged' event from the backend
+        socket.on('orderStatusChanged', (data) => {
+    const { orderId, status } = data;
+    const orderElement = document.querySelector(`#order-${orderId}`);
+    if (orderElement) {
+        const statusElement = orderElement.querySelector('.order-status');
+        if (statusElement) {
+            statusElement.innerText = status;  // Update the status in the DOM
+        }
+    }
+});
+
+    </script>
 </head>
 <body>
     <h1>Order Receipt</h1>
-    <p><strong>Order Number:</strong> <%= order.orderNumber %></p>
-    <p><strong>Status:</strong> <%= order.orderStatus %></p>
+    <div id="order-<%= order._id %>">
+        <p><strong>Order Number:</strong> <%= order.orderNumber %></p>
+        <p><strong>Status:</strong> <span class="order-status"><%= order.orderStatus %></span></p>
 
-    <h3>Items Ordered</h3>
-    <ul>
-        <% order.items.forEach(item => { %>
-            <li><%= item.itemId.name %> - Quantity: <%= item.quantity %> - ₹<%= item.itemId.price * item.quantity %></li>
-        <% }); %>
-    </ul>
+        <h3>Items Ordered</h3>
+        <ul>
+            <% order.items.forEach(item => { %>
+                <li><%= item.itemId.name %> - Quantity: <%= item.quantity %> - ₹<%= item.itemId.price * item.quantity %></li>
+            <% }); %>
+        </ul>
 
-    <h3>Delivery Address</h3>
-    <p><%= order.deliveryAddress.flatNo %>, <%= order.deliveryAddress.buildingNo %>, <%= order.deliveryAddress.buildingName %></p>
-    <p><%= order.deliveryAddress.nearby %> - <%= order.deliveryAddress.pincode %></p>
-    <p>Phone: <%= order.deliveryAddress.phoneNo %></p>
+        <h3>Delivery Address</h3>
+        <p><%= order.deliveryAddress.flatNo %>, <%= order.deliveryAddress.buildingNo %>, <%= order.deliveryAddress.buildingName %></p>
+        <p><%= order.deliveryAddress.nearby %> - <%= order.deliveryAddress.pincode %></p>
+        <p>Phone: <%= order.deliveryAddress.phoneNo %></p>
 
-    <h3>Total Amount: ₹<%= order.totalAmount %></h3>
+        <h3>Total Amount: ₹<%= order.totalAmount %></h3>
+    </div>
 </body>
 </html>

@@ -8,8 +8,8 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 // Import user routes
-const userRoutes = require('./routes/userRoutes'); // Make sure the path is correct
-const adminRoutes = require('./routes/adminRoutes'); // Import admin routes
+const userRoutes = require('./routes/userRoutes'); 
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -27,13 +27,11 @@ app.use(express.json());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI,
-        collectionName: 'sessions'
-    }),
+    saveUninitialized: true,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 // Session lasts for 1 day
+        httpOnly: true,
+        secure: false, 
+        maxAge: 1000 * 60 * 30 
     }
 }));
 
@@ -82,6 +80,10 @@ app.get('/checkout', (req, res) => {
 app.get('/order-history', (req, res) => {
     res.render('order-history');
 });
+
+app.get('/ordertrack',(req,res) => {
+    res.render('ordertrack');
+})
 
 // Start the server
 app.listen(PORT, () => {

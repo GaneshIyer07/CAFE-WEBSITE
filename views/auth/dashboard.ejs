@@ -65,7 +65,7 @@
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             justify-items: center;
             margin-top: 30px;
@@ -134,31 +134,41 @@
         <h2>Welcome to RS MANI CAFE</h2>
 
         <!-- Icon-Based Card Grid -->
-        <div class="grid">
-            <!-- View Menu Icon Card -->
-            <div class="icon-card" onclick="location.href='/auth/dashboard/displaymenu'">
-                <div class="icon">
-                    <i class="fas fa-utensils"></i>
-                </div>
-                <h3>View Menu</h3>
-            </div>
-
-            <!-- Outlets Icon Card -->
-            <div class="icon-card" onclick="location.href='/auth/dashboard/outlets'">
-                <div class="icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <h3>Outlets</h3>
-            </div>
-
-            <!-- Order Icon Card -->
-            <div class="icon-card" onclick="location.href='/auth/dashboard/orders'">
-                <div class="icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <h3>Place Order</h3>
-            </div>
+       <!-- Icon-Based Card Grid -->
+<div class="grid">
+    <!-- View Menu Icon Card -->
+    <div class="icon-card" onclick="location.href='/auth/dashboard/displaymenu'">
+        <div class="icon">
+            <i class="fas fa-utensils"></i>
         </div>
+        <h3>View Menu</h3>
+    </div>
+
+    <!-- Outlets Icon Card -->
+    <div class="icon-card" onclick="location.href='/auth/dashboard/outlets'">
+        <div class="icon">
+            <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <h3>Outlets</h3>
+    </div>
+
+    <!-- Order Icon Card -->
+    <div class="icon-card" onclick="location.href='/auth/dashboard/orders'">
+        <div class="icon">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+        <h3>Place Order</h3>
+    </div>
+
+    <!-- Order Track Icon Card -->
+    <div class="icon-card" onclick="location.href='/auth/dashboard/ordertrack'">
+        <div class="icon">
+            <i class="fas fa-truck"></i>
+        </div>
+        <h3>Track Order</h3>
+    </div>
+</div>
+
     </div>
 
     <!-- Footer -->

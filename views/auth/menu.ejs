@@ -39,14 +39,11 @@
             padding: 2rem;
             text-align: center;
             margin: 40px auto;
-            max-width: 900px;
+            max-width: 1000px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        h1 {
+        h1, h3 {
             color: #4b2e20;
-        }
-        .table {
-            margin-bottom: 0;
         }
         .btn {
             border-radius: 20px;
@@ -68,11 +65,6 @@
         .cart-section {
             max-height: 500px;
             overflow-y: auto;
-        }
-        h3 {
-            font-size: 1.5rem;
-            color: #4b2e20;
-            margin-bottom: 20px;
         }
         /* Styling for a balanced look on mobile devices */
         @media (max-width: 768px) {
@@ -105,8 +97,9 @@
             <!-- Menu Section -->
             <div class="menu-section">
                 <h3>Menu</h3>
+                <input type="text" class="form-control mb-3" id="menu-search" placeholder="Search for items...">
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-hover">
                         <thead class="table-dark">
                             <tr>
                                 <th>Name</th>
@@ -114,13 +107,15 @@
                                 <th>Add</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="menu-items">
                             <% menuItems.forEach(item => { %>
                                 <tr>
                                     <td><strong><%= item.name %></strong></td>
                                     <td>₹<%= item.price %></td>
                                     <td>
-                                        <button class="btn btn-primary add-to-cart-btn" data-id="<%= item._id %>" data-name="<%= item.name %>" data-price="<%= item.price %>">Add to Cart</button>
+                                        <button class="btn btn-primary btn-sm add-to-cart-btn" data-id="<%= item._id %>" data-name="<%= item.name %>" data-price="<%= item.price %>">
+                                            Add to Cart
+                                        </button>
                                     </td>
                                 </tr>
                             <% }); %>
@@ -173,7 +168,7 @@
                     cart.push({
                         menuItemId,
                         itemName,
-                        itemPrice: isNaN(itemPrice) ? 0 : itemPrice, // Ensure valid itemPrice
+                        itemPrice: isNaN(itemPrice) ? 0 : itemPrice,
                         quantity: 1
                     });
                 }
@@ -183,7 +178,7 @@
             });
         });
 
-        // Function to display cart items from session storage
+        // Function to display cart items
         function displayCartItems() {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
             const cartItemsContainer = document.getElementById('cart-items');
@@ -199,24 +194,19 @@
             }
 
             cart.forEach((item, index) => {
-                // Validate itemPrice and quantity
-                const itemPrice = isNaN(item.itemPrice) ? 0 : item.itemPrice; // Default to 0 if not a number
-                const quantity = isNaN(item.quantity) ? 1 : item.quantity; // Default to 1 if not a number
-
-                const itemTotal = itemPrice * quantity; // Calculate total for this item
-                const itemTotalFormatted = itemTotal.toFixed(2); // Format total to 2 decimals
-                grandTotal += parseFloat(itemTotalFormatted); // Add item total to grand total
+                const itemTotal = item.itemPrice * item.quantity;
+                grandTotal += itemTotal;
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td><strong>${item.itemName}</strong></td>
-                    <td>₹${itemPrice.toFixed(2)}</td>
+                    <td>₹${item.itemPrice.toFixed(2)}</td>
                     <td>
                         <button class="btn btn-sm btn-outline-secondary decrease-qty" data-index="${index}">-</button>
-                        <span class="mx-2">${quantity}</span>
+                        <span class="mx-2">${item.quantity}</span>
                         <button class="btn btn-sm btn-outline-secondary increase-qty" data-index="${index}">+</button>
                     </td>
-                    <td>₹${itemTotalFormatted}</td>
+                    <td>₹${itemTotal.toFixed(2)}</td>
                     <td>
                         <button class="btn btn-sm btn-danger remove-item" data-index="${index}">Remove</button>
                     </td>
@@ -225,14 +215,13 @@
             });
 
             grandTotalContainer.textContent = grandTotal.toFixed(2);
-            addCartEditFunctionality(); // Add functionality for editing cart items
+            addCartEditFunctionality();
         }
 
-        // Function to handle editing the cart (increase, decrease, remove items)
+        // Function to edit cart items
         function addCartEditFunctionality() {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-            // Increase quantity
             document.querySelectorAll('.increase-qty').forEach(button => {
                 button.addEventListener('click', function () {
                     const index = this.getAttribute('data-index');
@@ -242,7 +231,6 @@
                 });
             });
 
-            // Decrease quantity
             document.querySelectorAll('.decrease-qty').forEach(button => {
                 button.addEventListener('click', function () {
                     const index = this.getAttribute('data-index');
@@ -256,7 +244,6 @@
                 });
             });
 
-            // Remove item
             document.querySelectorAll('.remove-item').forEach(button => {
                 button.addEventListener('click', function () {
                     const index = this.getAttribute('data-index');
@@ -267,8 +254,23 @@
             });
         }
 
-        // Initial display of cart items on page load
-        document.addEventListener('DOMContentLoaded', displayCartItems);
+        // Display cart items on page load
+        window.addEventListener('DOMContentLoaded', displayCartItems);
+
+        // Filter menu items based on search input
+        document.getElementById('menu-search').addEventListener('input', function () {
+            const searchText = this.value.toLowerCase();
+            const menuRows = document.querySelectorAll('#menu-items tr');
+
+            menuRows.forEach(row => {
+                const itemName = row.querySelector('td strong').textContent.toLowerCase();
+                if (itemName.includes(searchText)) {
+                    row.style.display = ''; // Show row
+                } else {
+                    row.style.display = 'none'; // Hide row
+                }
+            });
+        });
     </script>
 </body>
 </html>

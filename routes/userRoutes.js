@@ -67,6 +67,27 @@ router.get('/dashboard/displaymenu', isAuthenticated, asyncHandler(async (req, r
     res.render('auth/displaymenu', { menuItems, user });
 }));
 
+// Route to display the order tracking page
+router.get('/dashboard/ordertrack', isAuthenticated, asyncHandler(async (req, res) => {
+    const orders = await Checkout.find({ userId: req.session.userId }); // Fetch all orders of the logged-in user
+    res.render('auth/ordertrack', { orders, orderDetails: null, error: null });
+}));
+
+// Order Track Form Submit Route
+router.post('/dashboard/ordertrack', isAuthenticated, asyncHandler(async (req, res) => {
+    const { orderNumber } = req.body; // Get the order number from the form submission
+
+    // Find the order by order number
+    const order = await Checkout.findOne({ orderNumber, userId: req.session.userId }).populate('items.itemId');
+    
+    if (!order) {
+        return res.render('auth/ordertrack', { orders: null, orderDetails: null, error: 'Order not found or does not belong to you' });
+    }
+
+    // If order found, return order details with status
+    res.render('auth/ordertrack', { orders: null, orderDetails: order, error: null });
+}));
+
 router.get('/dashboard/orders/menu', isAuthenticated, asyncHandler(async (req, res) => {
     const menuItems = await Menu.find();
     const user = await User.findById(req.session.userId);
