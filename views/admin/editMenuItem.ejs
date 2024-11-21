@@ -31,8 +31,14 @@
 
             <div class="mb-3">
                 <label for="category" class="form-label">Category:</label>
-                <input type="text" class="form-control" name="category" id="category" value="<%= menuItem.category %>" required placeholder="Enter menu item category">
+                <select class="form-select" name="category" id="category" required>
+                    <option value="Dosa" <%= menuItem.category === 'Dosa' ? 'selected' : '' %>>Dosa</option>
+                    <option value="Uthappa" <%= menuItem.category === 'Uthappa' ? 'selected' : '' %>>Uthappa</option>
+                    <option value="Beverages" <%= menuItem.category === 'Beverages' ? 'selected' : '' %>>Beverages</option>
+                    <option value="Breakfasts" <%= menuItem.category === 'Breakfasts' ? 'selected' : '' %>>Breakfasts</option>
+                </select>
             </div>
+            
 
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">Update Menu Item</button>

@@ -31,8 +31,15 @@
 
             <div class="mb-3">
                 <label for="category" class="form-label">Category:</label>
-                <input type="text" class="form-control" name="category" id="category" required placeholder="Enter menu item category">
+                <select class="form-select" name="category" id="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Dosa">Dosa</option>
+                    <option value="Uthappa">Uthappam</option>
+                    <option value="Beverages">Beverages</option>
+                    <option value="Breakfasts">Breakfasts</option>
+                </select>
             </div>
+            
 
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">Add Menu Item</button>
